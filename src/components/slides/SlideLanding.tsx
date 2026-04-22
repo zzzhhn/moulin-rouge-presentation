@@ -1,11 +1,18 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
-import SplitTextReveal from "../SplitTextReveal";
 import Windmill from "../Windmill";
 
 interface SlideLandingProps {
   isActive: boolean;
 }
+
+const members = [
+  { name: "Mai Sui", sid: "121090412" },
+  { name: "Li Siqi", sid: "122090271" },
+  { name: "Zhong Haonan", sid: "123090894" },
+  { name: "Liu Yunjie", sid: "124020291" },
+  { name: "Jiao Zihan", sid: "125090274" },
+];
 
 export default function SlideLanding({ isActive }: SlideLandingProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -16,68 +23,144 @@ export default function SlideLanding({ isActive }: SlideLandingProps) {
     hasAnimated.current = true;
 
     const ctx = gsap.context(() => {
-      const windmill = sectionRef.current!.querySelector(".windmill-wrap");
-      const subtitle = sectionRef.current!.querySelector(".subtitle");
-      const members = sectionRef.current!.querySelector(".members");
-      const hint = sectionRef.current!.querySelector(".hint");
-
-      gsap.from(windmill, {
-        scale: 0.8,
+      gsap.from(".windmill-wrap", {
+        scale: 0.85,
+        opacity: 0,
+        duration: 1.4,
+        ease: "power3.out",
+      });
+      gsap.from(".members-list li", {
+        x: -30,
+        opacity: 0,
+        duration: 0.6,
+        stagger: 0.1,
+        ease: "power2.out",
+        delay: 0.3,
+      });
+      gsap.from(".title-word", {
+        yPercent: 100,
+        opacity: 0,
+        duration: 1.0,
+        stagger: 0.08,
+        ease: "power4.out",
+        delay: 0.7,
+      });
+      gsap.from(".subtitle", {
+        y: 20,
+        opacity: 0,
+        duration: 0.9,
+        ease: "power3.out",
+        delay: 1.4,
+      });
+      gsap.from(".ornament-left, .ornament-right", {
+        scaleX: 0,
         opacity: 0,
         duration: 1,
-        ease: "back.out(1.7)",
-        delay: 0.2,
+        ease: "power2.out",
+        delay: 1.6,
       });
-      gsap.from(subtitle, {
-        y: 30,
+      gsap.from(".hint", {
         opacity: 0,
         duration: 0.8,
-        ease: "power3.out",
-        delay: 1.2,
-      });
-      gsap.from(members, {
-        opacity: 0,
-        duration: 0.8,
-        ease: "power2.out",
-        delay: 1.5,
-      });
-      gsap.from(hint, {
-        opacity: 0,
-        y: 10,
-        duration: 0.6,
-        ease: "power2.out",
-        delay: 1.8,
+        delay: 2.0,
       });
     }, sectionRef);
-
     return () => ctx.revert();
   }, [isActive]);
 
   return (
     <div
       ref={sectionRef}
-      className="flex flex-col items-center justify-center h-full relative"
+      className="h-full w-full grid grid-cols-1 lg:grid-cols-12 items-center relative px-8 lg:px-16"
     >
-      <div className="windmill-wrap">
-        <Windmill />
+      {/* LEFT: Windmill */}
+      <div className="lg:col-span-6 flex items-center justify-center relative">
+        <div className="windmill-wrap w-[min(72vh,42vw)] aspect-[400/520]">
+          <Windmill className="w-full h-full" />
+        </div>
       </div>
-      <div className="perspective-800">
-        <SplitTextReveal
-          text="Moulin Rouge!"
-          type="chars"
-          delay={0.5}
-          className="font-display text-7xl md:text-8xl font-bold text-gold-gradient drop-shadow-[0_0_40px_rgba(212,175,55,0.3)]"
-          trigger={isActive}
-        />
+
+      {/* RIGHT: Text stack — members → title → subtitle */}
+      <div className="lg:col-span-6 flex flex-col justify-center gap-10 lg:pl-6 pb-8 lg:pb-0">
+        {/* 1 — Member list (Calibri) */}
+        <ul className="members-list space-y-1.5 font-calibri text-rouge-50/85 text-[15px] md:text-base tracking-wide">
+          {members.map((m) => (
+            <li key={m.sid} className="flex items-baseline gap-3">
+              <span className="text-rouge-100/90 tabular-nums text-sm">
+                {m.sid}
+              </span>
+              <span className="h-px flex-1 bg-rouge-100/20 translate-y-[-3px]" />
+              <span>{m.name}</span>
+            </li>
+          ))}
+        </ul>
+
+        {/* 2 — Title (花体, large) */}
+        <div className="relative">
+          {/* ornamental rule above */}
+          <div className="flex items-center gap-3 mb-2 text-rouge-100/70">
+            <span className="ornament-left h-px flex-1 bg-gradient-to-r from-transparent via-rouge-100/70 to-rouge-100/70 origin-right" />
+            <span className="font-cinzel text-[10px] tracking-[0.4em]">
+              GED2404 · SPRING 2026
+            </span>
+            <span className="ornament-right h-px flex-1 bg-gradient-to-l from-transparent via-rouge-100/70 to-rouge-100/70 origin-left" />
+          </div>
+
+          <h1 className="font-script leading-[0.9] select-none">
+            <span className="block overflow-hidden">
+              <span
+                className="title-word inline-block text-[clamp(4.5rem,10vw,10rem)]"
+                style={{
+                  background:
+                    "linear-gradient(180deg, #f4e4c1 0%, #d4af37 45%, #8a6a18 100%)",
+                  WebkitBackgroundClip: "text",
+                  backgroundClip: "text",
+                  color: "transparent",
+                  filter:
+                    "drop-shadow(0 2px 0 rgba(0,0,0,0.4)) drop-shadow(0 0 25px rgba(212,175,55,0.35))",
+                }}
+              >
+                Moulin
+              </span>
+            </span>
+            <span className="block overflow-hidden -mt-6 lg:-mt-8 pl-12 lg:pl-20">
+              <span
+                className="title-word inline-block text-[clamp(4.5rem,10vw,10rem)]"
+                style={{
+                  background:
+                    "linear-gradient(180deg, #f4e4c1 0%, #d4af37 45%, #8a6a18 100%)",
+                  WebkitBackgroundClip: "text",
+                  backgroundClip: "text",
+                  color: "transparent",
+                  filter:
+                    "drop-shadow(0 2px 0 rgba(0,0,0,0.4)) drop-shadow(0 0 25px rgba(212,175,55,0.35))",
+                }}
+              >
+                Rouge
+              </span>
+              <span
+                className="title-word inline-block text-[clamp(4.5rem,10vw,10rem)] text-rouge-200 ml-2"
+                style={{
+                  filter:
+                    "drop-shadow(0 0 18px rgba(158,27,50,0.55))",
+                }}
+              >
+                !
+              </span>
+            </span>
+          </h1>
+        </div>
+
+        {/* 3 — Subtitle (Libre Baskerville) */}
+        <p className="subtitle font-baskerville italic text-rouge-50/75 text-lg md:text-xl tracking-wide">
+          The Musical <span className="mx-2 text-rouge-100">·</span> A Century of
+          Dreams
+        </p>
       </div>
-      <div className="subtitle mt-4 font-body text-lg md:text-xl tracking-[0.3em] text-rouge-50/80">
-        The Musical &middot; A Century of Dreams
-      </div>
-      <div className="members absolute bottom-12 text-sm text-rouge-50/50 tracking-wide">
-        Group Presentation &middot; Spring 2026
-      </div>
-      <div className="hint absolute bottom-24 text-xs text-rouge-50/40 animate-bounce">
-        Press Space to Enter
+
+      <div className="hint absolute bottom-6 left-1/2 -translate-x-1/2 text-xs text-rouge-50/40 tracking-[0.3em] uppercase">
+        <span className="inline-block animate-bounce">↓</span>
+        <span className="ml-2">Space or Scroll to Enter</span>
       </div>
     </div>
   );

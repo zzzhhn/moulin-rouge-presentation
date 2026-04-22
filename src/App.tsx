@@ -2,49 +2,46 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { gsap } from "gsap";
 import AuroraBackground from "./components/AuroraBackground";
 import ParticleField from "./components/ParticleField";
-import SpotlightCursor from "./components/SpotlightCursor";
+import BohemianOverlay from "./components/BohemianOverlay";
+import ClickSpark from "./components/ClickSpark";
 import ProgressBar from "./components/ProgressBar";
 import SpeakerNotes from "./components/SpeakerNotes";
 
 // Slides
 import SlideLanding from "./components/slides/SlideLanding";
-import SlideCreed from "./components/slides/SlideCreed";
-import SlideStory from "./components/slides/SlideStory";
-import SlideMusic from "./components/slides/SlideMusic";
-import SlideDance from "./components/slides/SlideDance";
-import SlideCompare from "./components/slides/SlideCompare";
-import SlideTheory from "./components/slides/SlideTheory";
-import SlideFinale from "./components/slides/SlideFinale";
+import SlideIntro from "./components/slides/SlideIntro";
+import SlideCanCan from "./components/slides/SlideCanCan";
+import SlideJukebox from "./components/slides/SlideJukebox";
+import SlideThemes from "./components/slides/SlideThemes";
+import SlideReality from "./components/slides/SlideReality";
+import SlideQA from "./components/slides/SlideQA";
 
 const slides = [
   SlideLanding,
-  SlideCreed,
-  SlideStory,
-  SlideMusic,
-  SlideDance,
-  SlideCompare,
-  SlideTheory,
-  SlideFinale,
+  SlideIntro,
+  SlideCanCan,
+  SlideJukebox,
+  SlideThemes,
+  SlideReality,
+  SlideQA,
 ];
 
 const slideNotes = [
-  "【Member 1】Hello everyone, we are Group X. Today we invite you into 1899 Paris, Moulin Rouge...",
-  "【Member 1】Truth, Beauty, Freedom, Love — the Bohemian Creed. In the red-light district, they are precisely the most scarce...",
-  "【Member 2】The story begins with a mistaken identity. Notice the play-within-a-play structure: the 'fake' on stage mirrors the 'real' off stage...",
-  "【Member 3】This musical uses 70 pop songs, turning song history into narrative tool...",
-  "【Member 3】Sonya Tayeh's Roxanne tango is the climax. In this clip you can see...",
-  "【Member 4】In the film, Satine is an object waiting to be rescued. The musical gives her strategic subjectivity...",
-  "【Member 5】Let's place this musical back into our course context. Week 4's Book Musical...",
-  "【Member 5】Finally, one question to leave with you: Is Satine's death necessary for love to become eternal?",
+  "【封面】Welcome, we are Group presenting Moulin Rouge! The Musical — A Century of Dreams.",
+  "【Section 1 · 音乐剧介绍】Overview of Moulin Rouge! — origin as 2001 Baz Luhrmann film, Broadway adaptation premiered 2019, Tony Award winner 2020.",
+  "【Section 2 · 康康舞】The Can-Can — from 19th century Parisian defiance to modern female empowerment. [Video clip here]",
+  "【Section 3 · 点唱机模式】Jukebox musical format — 2019 production added contemporary songs (Firework, Chandelier) to the 2001 canon.",
+  "【Section 4 · 主题 & 茶花女对比】Comparing Moulin Rouge with La Traviata / La Dame aux camélias — the courtesan-tragedy archetype across centuries.",
+  "【Section 5 · 与现实结合】The 2019 production and the pandemic reality — theatre under shutdown, the meaning of 'show must go on' in 2020-2021.",
+  "【Section 6 · Q&A】Thank you. Questions welcomed.",
 ];
 
-const TRANSITION_DURATION = 0.8;
+const TRANSITION_DURATION = 0.85;
 const TRANSITION_EASE = "power3.inOut";
 
 export default function App() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [notesVisible, setNotesVisible] = useState(false);
-  const [cursorEnabled, setCursorEnabled] = useState(true);
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
   const isAnimating = useRef(false);
   const currentSlideRef = useRef(0);
@@ -54,7 +51,6 @@ export default function App() {
     currentSlideRef.current = currentSlide;
   }, [currentSlide]);
 
-  // Initialize: hide all slides except first
   useEffect(() => {
     slideRefs.current.forEach((el, i) => {
       if (!el) return;
@@ -87,26 +83,28 @@ export default function App() {
         return;
       }
 
-      // Prepare next slide
       gsap.set(nextEl, {
         y: goingDown ? "100%" : "-100%",
         opacity: 0,
         visibility: "visible",
       });
 
+      // CRITICAL: fire isActive early (at ~25% of transition) so content
+      // animations overlap with the slide slide-in. This eliminates the
+      // "transition-then-animate" disjointed feel.
+      const EARLY_ACTIVATE_FRACTION = 0.25;
+
       const tl = gsap.timeline({
         onComplete: () => {
           gsap.set(currentEl, { visibility: "hidden" });
           isAnimating.current = false;
-          setCurrentSlide(targetIndex);
         },
       });
 
-      // Animate current slide out
       tl.to(
         currentEl,
         {
-          y: goingDown ? "-30%" : "30%",
+          y: goingDown ? "-25%" : "25%",
           opacity: 0,
           duration: TRANSITION_DURATION,
           ease: TRANSITION_EASE,
@@ -114,7 +112,6 @@ export default function App() {
         0
       );
 
-      // Animate next slide in
       tl.to(
         nextEl,
         {
@@ -124,6 +121,12 @@ export default function App() {
           ease: TRANSITION_EASE,
         },
         0
+      );
+
+      tl.call(
+        () => setCurrentSlide(targetIndex),
+        [],
+        TRANSITION_DURATION * EARLY_ACTIVATE_FRACTION
       );
     },
     []
@@ -137,7 +140,6 @@ export default function App() {
     goToSlide(currentSlideRef.current - 1);
   }, [goToSlide]);
 
-  // Keyboard navigation
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === " " || e.key === "ArrowRight" || e.key === "ArrowDown") {
@@ -150,35 +152,25 @@ export default function App() {
         setNotesVisible((v) => !v);
       }
     };
-
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
   }, [goNext, goPrev]);
 
-  // Wheel navigation with debounce
   useEffect(() => {
     let wheelAccumulated = 0;
     let wheelTimer: ReturnType<typeof setTimeout> | null = null;
-
     const handleWheel = (e: WheelEvent) => {
       e.preventDefault();
-
       wheelAccumulated += e.deltaY;
-
       if (wheelTimer) clearTimeout(wheelTimer);
-
       wheelTimer = setTimeout(() => {
         if (Math.abs(wheelAccumulated) > 30) {
-          if (wheelAccumulated > 0) {
-            goNext();
-          } else {
-            goPrev();
-          }
+          if (wheelAccumulated > 0) goNext();
+          else goPrev();
         }
         wheelAccumulated = 0;
       }, 50);
     };
-
     window.addEventListener("wheel", handleWheel, { passive: false });
     return () => {
       window.removeEventListener("wheel", handleWheel);
@@ -186,23 +178,17 @@ export default function App() {
     };
   }, [goNext, goPrev]);
 
-  // Touch navigation
   useEffect(() => {
     const handleTouchStart = (e: TouchEvent) => {
       touchStartY.current = e.touches[0].clientY;
     };
-
     const handleTouchEnd = (e: TouchEvent) => {
       const deltaY = touchStartY.current - e.changedTouches[0].clientY;
       if (Math.abs(deltaY) > 50) {
-        if (deltaY > 0) {
-          goNext();
-        } else {
-          goPrev();
-        }
+        if (deltaY > 0) goNext();
+        else goPrev();
       }
     };
-
     window.addEventListener("touchstart", handleTouchStart, { passive: true });
     window.addEventListener("touchend", handleTouchEnd, { passive: true });
     return () => {
@@ -211,19 +197,15 @@ export default function App() {
     };
   }, [goNext, goPrev]);
 
-  // Disable spotlight cursor on video slide (index 4)
-  useEffect(() => {
-    setCursorEnabled(currentSlide !== 4);
-  }, [currentSlide]);
-
   return (
     <div className="relative w-screen h-screen overflow-hidden">
       <AuroraBackground />
+      <BohemianOverlay />
       <ParticleField
-        active={currentSlide === 0 || currentSlide === 7}
-        boostSpeed={currentSlide === 7}
+        active={currentSlide === 0 || currentSlide === slides.length - 1}
+        boostSpeed={currentSlide === slides.length - 1}
       />
-      {cursorEnabled && <SpotlightCursor />}
+      <ClickSpark />
 
       <main className="relative z-10 w-full h-full">
         {slides.map((Slide, i) => (

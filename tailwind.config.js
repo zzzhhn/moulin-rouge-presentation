@@ -63,6 +63,11 @@ module.exports = {
         display: ['"Cormorant Garamond"', 'Georgia', 'serif'],
         body: ['"Inter"', 'system-ui', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'monospace'],
+        script: ['"Great Vibes"', '"Pinyon Script"', 'cursive'],
+        flourish: ['"Italianno"', 'cursive'],
+        cinzel: ['"Cinzel Decorative"', 'Georgia', 'serif'],
+        baskerville: ['"Libre Baskerville"', 'Georgia', 'serif'],
+        calibri: ['Calibri', '"Carlito"', '"Source Sans 3"', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
         xl: "calc(var(--radius) + 4px)",
