@@ -37,11 +37,12 @@ export default function SlideLanding({ isActive }: SlideLandingProps) {
         delay: 0.1,
       });
       gsap.from(".title-word", {
-        yPercent: 100,
+        y: 30,
         opacity: 0,
-        duration: 1.0,
-        stagger: 0.08,
-        ease: "power4.out",
+        scale: 0.96,
+        duration: 1.1,
+        stagger: 0.12,
+        ease: "power3.out",
         delay: 0.3,
       });
       gsap.from(".subtitle", {
@@ -92,8 +93,10 @@ export default function SlideLanding({ isActive }: SlideLandingProps) {
             <span className="ornament-right h-px flex-1 bg-gradient-to-l from-transparent via-rouge-100/70 to-rouge-100/70 origin-left" />
           </div>
 
-          <h1 className="font-script leading-[0.9] select-none">
-            <span className="block overflow-hidden">
+          {/* Title block — generous padding so script swashes (M curl, R curl,
+              g descender) are never clipped by the parent container. */}
+          <h1 className="font-script leading-[0.95] select-none px-6 -mx-6 pb-6">
+            <span className="block">
               <span
                 className="title-word inline-block text-[clamp(4.5rem,10vw,10rem)]"
                 style={{
@@ -104,12 +107,14 @@ export default function SlideLanding({ isActive }: SlideLandingProps) {
                   color: "transparent",
                   filter:
                     "drop-shadow(0 2px 0 rgba(0,0,0,0.4)) drop-shadow(0 0 25px rgba(212,175,55,0.35))",
+                  paddingLeft: "0.15em",
+                  paddingRight: "0.1em",
                 }}
               >
                 Moulin
               </span>
             </span>
-            <span className="block overflow-hidden -mt-6 lg:-mt-8 pl-12 lg:pl-20">
+            <span className="block -mt-4 lg:-mt-6 pl-10 lg:pl-16">
               <span
                 className="title-word inline-block text-[clamp(4.5rem,10vw,10rem)]"
                 style={{
@@ -120,6 +125,9 @@ export default function SlideLanding({ isActive }: SlideLandingProps) {
                   color: "transparent",
                   filter:
                     "drop-shadow(0 2px 0 rgba(0,0,0,0.4)) drop-shadow(0 0 25px rgba(212,175,55,0.35))",
+                  paddingLeft: "0.15em",
+                  paddingRight: "0.05em",
+                  paddingBottom: "0.12em",
                 }}
               >
                 Rouge
