@@ -95,7 +95,6 @@ export default function SlideReality({ isActive }: Props) {
             number="05"
             kicker="Bohemia meets a pandemic"
             title="The Show Must Go On"
-            titleZh="与现实结合 · 疫情下的剧场"
           />
         </div>
 

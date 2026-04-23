@@ -68,7 +68,6 @@ export default function SlideIntro({ isActive }: Props) {
             number="01"
             kicker="A musical born of cinema"
             title="Moulin Rouge!"
-            titleZh="音乐剧介绍"
           />
         </div>
         <div className="intro-body font-baskerville text-rouge-50/85 text-[17px] leading-[1.85] space-y-4 max-w-xl">

@@ -224,7 +224,6 @@ export default function SlideJukebox({ isActive }: Props) {
             number="03"
             kicker="70 songs, one story"
             title="The Jukebox"
-            titleZh="点唱机模式 · 古典与当代的拼贴"
           />
         </div>
 

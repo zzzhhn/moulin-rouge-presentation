@@ -29,13 +29,12 @@ export default function SlideLanding({ isActive }: SlideLandingProps) {
         duration: 1.4,
         ease: "power3.out",
       });
-      gsap.from(".members-list li", {
-        x: -30,
+      gsap.from(".ornament-left, .ornament-right", {
+        scaleX: 0,
         opacity: 0,
-        duration: 0.6,
-        stagger: 0.1,
+        duration: 1,
         ease: "power2.out",
-        delay: 0.3,
+        delay: 0.1,
       });
       gsap.from(".title-word", {
         yPercent: 100,
@@ -43,26 +42,27 @@ export default function SlideLanding({ isActive }: SlideLandingProps) {
         duration: 1.0,
         stagger: 0.08,
         ease: "power4.out",
-        delay: 0.7,
+        delay: 0.3,
       });
       gsap.from(".subtitle", {
         y: 20,
         opacity: 0,
         duration: 0.9,
         ease: "power3.out",
-        delay: 1.4,
+        delay: 1.0,
       });
-      gsap.from(".ornament-left, .ornament-right", {
-        scaleX: 0,
+      gsap.from(".members-list li", {
+        x: -30,
         opacity: 0,
-        duration: 1,
+        duration: 0.6,
+        stagger: 0.08,
         ease: "power2.out",
-        delay: 1.6,
+        delay: 1.3,
       });
       gsap.from(".hint", {
         opacity: 0,
         duration: 0.8,
-        delay: 2.0,
+        delay: 1.9,
       });
     }, sectionRef);
     return () => ctx.revert();
@@ -80,24 +80,10 @@ export default function SlideLanding({ isActive }: SlideLandingProps) {
         </div>
       </div>
 
-      {/* RIGHT: Text stack — members → title → subtitle */}
-      <div className="lg:col-span-6 flex flex-col justify-center gap-10 lg:pl-6 pb-8 lg:pb-0">
-        {/* 1 — Member list (Calibri) */}
-        <ul className="members-list space-y-1.5 font-calibri text-rouge-50/85 text-[15px] md:text-base tracking-wide">
-          {members.map((m) => (
-            <li key={m.sid} className="flex items-baseline gap-3">
-              <span className="text-rouge-100/90 tabular-nums text-sm">
-                {m.sid}
-              </span>
-              <span className="h-px flex-1 bg-rouge-100/20 translate-y-[-3px]" />
-              <span>{m.name}</span>
-            </li>
-          ))}
-        </ul>
-
-        {/* 2 — Title (花体, large) */}
+      {/* RIGHT: Text stack — title → subtitle → members */}
+      <div className="lg:col-span-6 flex flex-col justify-center gap-8 lg:pl-6 pb-8 lg:pb-0">
+        {/* TITLE — script font */}
         <div className="relative">
-          {/* ornamental rule above */}
           <div className="flex items-center gap-3 mb-2 text-rouge-100/70">
             <span className="ornament-left h-px flex-1 bg-gradient-to-r from-transparent via-rouge-100/70 to-rouge-100/70 origin-right" />
             <span className="font-cinzel text-[10px] tracking-[0.4em]">
@@ -141,8 +127,7 @@ export default function SlideLanding({ isActive }: SlideLandingProps) {
               <span
                 className="title-word inline-block text-[clamp(4.5rem,10vw,10rem)] text-rouge-200 ml-2"
                 style={{
-                  filter:
-                    "drop-shadow(0 0 18px rgba(158,27,50,0.55))",
+                  filter: "drop-shadow(0 0 18px rgba(158,27,50,0.55))",
                 }}
               >
                 !
@@ -151,11 +136,33 @@ export default function SlideLanding({ isActive }: SlideLandingProps) {
           </h1>
         </div>
 
-        {/* 3 — Subtitle (Libre Baskerville) */}
-        <p className="subtitle font-baskerville italic text-rouge-50/75 text-lg md:text-xl tracking-wide">
+        {/* SUBTITLE — Libre Baskerville */}
+        <p className="subtitle font-baskerville italic text-rouge-50/80 text-lg md:text-xl tracking-wide">
           The Musical <span className="mx-2 text-rouge-100">·</span> A Century of
           Dreams
         </p>
+
+        {/* MEMBERS — name left, SID right, Times New Roman 16pt */}
+        <ul
+          className="members-list space-y-2 mt-2"
+          style={{
+            fontFamily: '"Times New Roman", Times, serif',
+            fontSize: "16pt",
+          }}
+        >
+          {members.map((m) => (
+            <li
+              key={m.sid}
+              className="flex items-baseline gap-4 text-rouge-50/88"
+            >
+              <span className="whitespace-nowrap">{m.name}</span>
+              <span className="h-px flex-1 bg-rouge-100/25 translate-y-[-4px]" />
+              <span className="text-rouge-100/85 tabular-nums whitespace-nowrap">
+                {m.sid}
+              </span>
+            </li>
+          ))}
+        </ul>
       </div>
 
       <div className="hint absolute bottom-6 left-1/2 -translate-x-1/2 text-xs text-rouge-50/40 tracking-[0.3em] uppercase">

@@ -27,13 +27,13 @@ const slides = [
 ];
 
 const slideNotes = [
-  "【封面】Welcome, we are Group presenting Moulin Rouge! The Musical — A Century of Dreams.",
-  "【Section 1 · 音乐剧介绍】Overview of Moulin Rouge! — origin as 2001 Baz Luhrmann film, Broadway adaptation premiered 2019, Tony Award winner 2020.",
-  "【Section 2 · 康康舞】The Can-Can — from 19th century Parisian defiance to modern female empowerment. [Video clip here]",
-  "【Section 3 · 点唱机模式】Jukebox musical format — 2019 production added contemporary songs (Firework, Chandelier) to the 2001 canon.",
-  "【Section 4 · 主题 & 茶花女对比】Comparing Moulin Rouge with La Traviata / La Dame aux camélias — the courtesan-tragedy archetype across centuries.",
-  "【Section 5 · 与现实结合】The 2019 production and the pandemic reality — theatre under shutdown, the meaning of 'show must go on' in 2020-2021.",
-  "【Section 6 · Q&A】Thank you. Questions welcomed.",
+  "[Cover] Welcome, we are Group presenting Moulin Rouge! The Musical — A Century of Dreams.",
+  "[01 · Introduction] Overview of Moulin Rouge! — origin as 2001 Baz Luhrmann film, Broadway adaptation premiered 2019, Tony Award winner 2020.",
+  "[02 · The Can-Can] From 19th century Parisian defiance to modern female empowerment. [Video clip here]",
+  "[03 · The Jukebox] Jukebox musical format — 2019 production added contemporary songs (Firework, Chandelier) to the 2001 canon.",
+  "[04 · Themes & La Traviata] Comparing Moulin Rouge with La Traviata / La Dame aux camélias — the courtesan-tragedy archetype across centuries.",
+  "[05 · Pandemic Reality] The 2019 production and the pandemic — theatre under shutdown, the meaning of 'show must go on' in 2020–2021.",
+  "[Q & A] Thank you. Questions welcomed.",
 ];
 
 const TRANSITION_DURATION = 0.85;

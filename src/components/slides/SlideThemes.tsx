@@ -7,10 +7,10 @@ interface Props {
 }
 
 const virtues = [
-  { word: "Truth", zh: "真" },
-  { word: "Beauty", zh: "美" },
-  { word: "Freedom", zh: "自由" },
-  { word: "Love", zh: "爱" },
+  { word: "Truth" },
+  { word: "Beauty" },
+  { word: "Freedom" },
+  { word: "Love" },
 ];
 
 const rows = [
@@ -87,7 +87,6 @@ export default function SlideThemes({ isActive }: Props) {
           number="04"
           kicker="Bohemian virtues · two centuries apart"
           title="Themes & La Traviata"
-          titleZh="主题 · 与《茶花女》的对比"
         />
       </div>
 
@@ -96,11 +95,8 @@ export default function SlideThemes({ isActive }: Props) {
         {virtues.map((v, i) => (
           <div key={v.word} className="virtue flex items-center gap-4 md:gap-8">
             <div className="text-center">
-              <div className="font-script text-rouge-100 text-3xl md:text-4xl leading-none">
+              <div className="font-script text-rouge-100 text-4xl md:text-5xl leading-none">
                 {v.word}
-              </div>
-              <div className="font-display text-rouge-50/60 text-sm mt-1">
-                {v.zh}
               </div>
             </div>
             {i < virtues.length - 1 && (
