@@ -6,6 +6,7 @@ import BohemianOverlay from "./components/BohemianOverlay";
 import ClickSpark from "./components/ClickSpark";
 import ProgressBar from "./components/ProgressBar";
 import SpeakerNotes from "./components/SpeakerNotes";
+import StageCurtain, { type CurtainState } from "./components/StageCurtain";
 
 // Slides
 import SlideLanding from "./components/slides/SlideLanding";
@@ -42,10 +43,18 @@ const TRANSITION_EASE = "power3.inOut";
 export default function App() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [notesVisible, setNotesVisible] = useState(false);
+  const [curtainState, setCurtainState] = useState<CurtainState>("hidden");
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
   const isAnimating = useRef(false);
   const currentSlideRef = useRef(0);
   const touchStartY = useRef(0);
+  const curtainStateRef = useRef<CurtainState>("hidden");
+  // Tracks whether the opening curtain reveal has played (first 0→1 navigation)
+  const hasRevealedRef = useRef(false);
+
+  useEffect(() => {
+    curtainStateRef.current = curtainState;
+  }, [curtainState]);
 
   useEffect(() => {
     currentSlideRef.current = currentSlide;
@@ -81,6 +90,23 @@ export default function App() {
       if (!currentEl || !nextEl) {
         isAnimating.current = false;
         return;
+      }
+
+      // ── Curtain reveal: first time leaving landing (0 → 1). Drop the
+      // closed curtain INSTANTLY to cover the viewport, let the GSAP slide
+      // transition run behind it, then part the curtain after the slide
+      // has settled.
+      if (
+        prevIndex === 0 &&
+        targetIndex === 1 &&
+        !hasRevealedRef.current
+      ) {
+        hasRevealedRef.current = true;
+        setCurtainState("closed"); // snap to closed (no transition)
+        // After the slide transition completes (~1s), part the curtain
+        setTimeout(() => setCurtainState("open"), 1100);
+        // After the 2.2s reveal animation finishes, unmount the curtain
+        setTimeout(() => setCurtainState("hidden"), 1100 + 2300);
       }
 
       gsap.set(nextEl, {
@@ -132,11 +158,26 @@ export default function App() {
     []
   );
 
-  const goNext = useCallback(() => {
+  // Forward action: either advance to next slide, OR — if we're on the
+  // Q&A slide and the curtain hasn't been rung down yet — drop the curtain
+  // for the finale. Pressing forward again after "final" is a no-op.
+  const handleForwardAction = useCallback(() => {
+    if (
+      currentSlideRef.current === slides.length - 1 &&
+      curtainStateRef.current === "hidden"
+    ) {
+      setCurtainState("final");
+      return;
+    }
+    // Block navigation while curtain is covering the viewport
+    if (curtainStateRef.current === "closed" || curtainStateRef.current === "final") {
+      return;
+    }
     goToSlide(currentSlideRef.current + 1);
   }, [goToSlide]);
 
   const goPrev = useCallback(() => {
+    if (curtainStateRef.current === "closed" || curtainStateRef.current === "final") return;
     goToSlide(currentSlideRef.current - 1);
   }, [goToSlide]);
 
@@ -144,7 +185,7 @@ export default function App() {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === " " || e.key === "ArrowRight" || e.key === "ArrowDown") {
         e.preventDefault();
-        goNext();
+        handleForwardAction();
       } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
         e.preventDefault();
         goPrev();
@@ -154,7 +195,24 @@ export default function App() {
     };
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
-  }, [goNext, goPrev]);
+  }, [handleForwardAction, goPrev]);
+
+  // Click anywhere on the viewport can also trigger the finale curtain.
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      // Ignore clicks on interactive elements so we don't steal their action
+      const target = e.target as HTMLElement;
+      if (target.closest("button, a, input, textarea, video, audio")) return;
+      if (
+        currentSlideRef.current === slides.length - 1 &&
+        curtainStateRef.current === "hidden"
+      ) {
+        setCurtainState("final");
+      }
+    };
+    window.addEventListener("click", handleClick);
+    return () => window.removeEventListener("click", handleClick);
+  }, []);
 
   useEffect(() => {
     let wheelAccumulated = 0;
@@ -165,7 +223,7 @@ export default function App() {
       if (wheelTimer) clearTimeout(wheelTimer);
       wheelTimer = setTimeout(() => {
         if (Math.abs(wheelAccumulated) > 30) {
-          if (wheelAccumulated > 0) goNext();
+          if (wheelAccumulated > 0) handleForwardAction();
           else goPrev();
         }
         wheelAccumulated = 0;
@@ -176,7 +234,7 @@ export default function App() {
       window.removeEventListener("wheel", handleWheel);
       if (wheelTimer) clearTimeout(wheelTimer);
     };
-  }, [goNext, goPrev]);
+  }, [handleForwardAction, goPrev]);
 
   useEffect(() => {
     const handleTouchStart = (e: TouchEvent) => {
@@ -185,7 +243,7 @@ export default function App() {
     const handleTouchEnd = (e: TouchEvent) => {
       const deltaY = touchStartY.current - e.changedTouches[0].clientY;
       if (Math.abs(deltaY) > 50) {
-        if (deltaY > 0) goNext();
+        if (deltaY > 0) handleForwardAction();
         else goPrev();
       }
     };
@@ -195,7 +253,7 @@ export default function App() {
       window.removeEventListener("touchstart", handleTouchStart);
       window.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [goNext, goPrev]);
+  }, [handleForwardAction, goPrev]);
 
   return (
     <div className="relative w-screen h-screen overflow-hidden">
@@ -222,12 +280,18 @@ export default function App() {
         ))}
       </main>
 
-      <ProgressBar
-        current={currentSlide}
-        total={slides.length}
-        onNavigate={goToSlide}
-      />
-      <SpeakerNotes visible={notesVisible} note={slideNotes[currentSlide]} />
+      {curtainState !== "final" && (
+        <>
+          <ProgressBar
+            current={currentSlide}
+            total={slides.length}
+            onNavigate={goToSlide}
+          />
+          <SpeakerNotes visible={notesVisible} note={slideNotes[currentSlide]} />
+        </>
+      )}
+
+      <StageCurtain state={curtainState} />
     </div>
   );
 }

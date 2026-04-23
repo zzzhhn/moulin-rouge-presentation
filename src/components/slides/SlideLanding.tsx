@@ -93,10 +93,12 @@ export default function SlideLanding({ isActive }: SlideLandingProps) {
             <span className="ornament-right h-px flex-1 bg-gradient-to-l from-transparent via-rouge-100/70 to-rouge-100/70 origin-left" />
           </div>
 
-          {/* Title block — generous padding so script swashes (M curl, R curl,
-              g descender) are never clipped by the parent container. */}
-          <h1 className="font-script leading-[0.95] select-none px-6 -mx-6 pb-6">
-            <span className="block">
+          {/* Title block — `leading-[1.1]` + generous per-span padding so the
+              Great Vibes script ascenders (M curl, R curl) and descenders
+              (g tail) always have room inside the line-box. No overflow-hidden
+              anywhere along the ancestor chain. */}
+          <h1 className="font-script select-none" style={{ lineHeight: 1.1, overflow: "visible" }}>
+            <span className="block" style={{ overflow: "visible" }}>
               <span
                 className="title-word inline-block text-[clamp(4.5rem,10vw,10rem)]"
                 style={{
@@ -107,14 +109,17 @@ export default function SlideLanding({ isActive }: SlideLandingProps) {
                   color: "transparent",
                   filter:
                     "drop-shadow(0 2px 0 rgba(0,0,0,0.4)) drop-shadow(0 0 25px rgba(212,175,55,0.35))",
+                  paddingTop: "0.25em",
                   paddingLeft: "0.15em",
                   paddingRight: "0.1em",
+                  paddingBottom: "0.08em",
+                  lineHeight: 1.1,
                 }}
               >
                 Moulin
               </span>
             </span>
-            <span className="block -mt-4 lg:-mt-6 pl-10 lg:pl-16">
+            <span className="block pl-10 lg:pl-16" style={{ overflow: "visible" }}>
               <span
                 className="title-word inline-block text-[clamp(4.5rem,10vw,10rem)]"
                 style={{
@@ -125,9 +130,11 @@ export default function SlideLanding({ isActive }: SlideLandingProps) {
                   color: "transparent",
                   filter:
                     "drop-shadow(0 2px 0 rgba(0,0,0,0.4)) drop-shadow(0 0 25px rgba(212,175,55,0.35))",
+                  paddingTop: "0.18em",
                   paddingLeft: "0.15em",
                   paddingRight: "0.05em",
-                  paddingBottom: "0.12em",
+                  paddingBottom: "0.2em",
+                  lineHeight: 1.1,
                 }}
               >
                 Rouge
@@ -136,6 +143,7 @@ export default function SlideLanding({ isActive }: SlideLandingProps) {
                 className="title-word inline-block text-[clamp(4.5rem,10vw,10rem)] text-rouge-200 ml-2"
                 style={{
                   filter: "drop-shadow(0 0 18px rgba(158,27,50,0.55))",
+                  lineHeight: 1.1,
                 }}
               >
                 !
