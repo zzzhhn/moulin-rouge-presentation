@@ -9,31 +9,19 @@ interface WindmillProps {
 // 4 large wooden sails with internal lattice, lamp halo, a night-sky glow.
 export default function Windmill({ className = "" }: WindmillProps) {
   const sailsRef = useRef<SVGGElement>(null);
-  const lampsRef = useRef<SVGGElement>(null);
 
   useEffect(() => {
-    if (sailsRef.current) {
-      gsap.to(sailsRef.current, {
-        rotation: 360,
-        duration: 22,
-        ease: "none",
-        repeat: -1,
-        transformOrigin: "50% 50%",
-      });
-    }
-    if (lampsRef.current) {
-      const bulbs = lampsRef.current.querySelectorAll<SVGCircleElement>(".lamp-bulb");
-      bulbs.forEach((b, i) => {
-        gsap.to(b, {
-          opacity: 0.35,
-          duration: 0.8 + Math.random() * 0.6,
-          delay: i * 0.15,
-          ease: "sine.inOut",
-          yoyo: true,
-          repeat: -1,
-        });
-      });
-    }
+    if (!sailsRef.current) return;
+    const tween = gsap.to(sailsRef.current, {
+      rotation: 360,
+      duration: 22,
+      ease: "none",
+      repeat: -1,
+      transformOrigin: "50% 50%",
+    });
+    return () => {
+      tween.kill();
+    };
   }, []);
 
   return (
@@ -191,20 +179,23 @@ export default function Windmill({ className = "" }: WindmillProps) {
         <circle cx="200" cy="230" r="3.5" fill="#d4af37" />
         <polygon points="200,222 203,230 200,238 197,230" fill="#d4af37" />
 
-        {/* Lamp string (marquee bulbs) around roof edge */}
-        <g ref={lampsRef}>
+        {/* Lamp string (marquee bulbs) around roof edge — CSS flicker (cheap) */}
+        <g>
           {Array.from({ length: 14 }).map((_, i) => {
             const x = 150 + (i * 100) / 13;
             return (
               <circle
                 key={i}
-                className="lamp-bulb"
                 cx={x}
                 cy={345}
                 r="1.8"
                 fill="#f4e4c1"
-                filter="url(#warmGlow)"
                 opacity="0.85"
+                style={{
+                  animation: `lamp-flicker ${1.4 + (i % 3) * 0.3}s ${
+                    i * 0.12
+                  }s ease-in-out infinite alternate`,
+                }}
               />
             );
           })}

@@ -1,14 +1,13 @@
 import { useState } from "react";
 
 const slideTitles = [
-  "Landing",
-  "The Bohemian Creed",
-  "Story Timeline",
-  "The Jukebox",
-  "Roxanne",
-  "Film vs. Musical",
-  "Course Connections",
-  "Finale",
+  "Moulin Rouge!",
+  "01 · Introduction",
+  "02 · The Can-Can",
+  "03 · The Jukebox",
+  "04 · Themes & La Traviata",
+  "05 · Pandemic Reality",
+  "Q & A",
 ];
 
 interface ProgressBarProps {

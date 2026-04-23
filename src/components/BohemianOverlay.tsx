@@ -1,91 +1,41 @@
+// Low-cost bohemian atmosphere layer:
+// - paisley pattern encoded as a static data: URL background-image (browser
+//   caches it once, no per-frame filter cost)
+// - vignette via a single radial gradient
+// No feTurbulence, no backdrop-filter, no mixBlendMode — those are the
+// expensive bits that were burning frames.
 export default function BohemianOverlay() {
+  const paisleySvg = encodeURIComponent(`
+    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'>
+      <g fill='none' stroke='#d4af37' stroke-width='1.2' opacity='0.8'>
+        <path d='M200 60 C 250 60, 290 100, 290 150 C 290 195, 255 230, 215 230 C 185 230, 160 210, 155 185 C 175 200, 210 200, 235 180 C 260 160, 265 130, 245 105 C 225 82, 195 82, 180 95 C 195 70, 200 60, 200 60 Z'/>
+        <circle cx='220' cy='140' r='4' fill='#d4af37'/>
+        <circle cx='200' cy='170' r='2' fill='#d4af37'/>
+        <path d='M 340 330 L 352 318 L 364 330 L 352 342 Z'/>
+      </g>
+      <g fill='#9e1b32' opacity='0.55'>
+        <ellipse cx='80' cy='320' rx='3' ry='9'/>
+        <ellipse cx='80' cy='320' rx='3' ry='9' transform='rotate(60 80 320)'/>
+        <ellipse cx='80' cy='320' rx='3' ry='9' transform='rotate(120 80 320)'/>
+        <circle cx='80' cy='320' r='3' fill='#d4af37'/>
+      </g>
+    </svg>
+  `);
+
   return (
     <>
-      {/* Paisley / Art Nouveau tapestry pattern — very low opacity */}
-      <svg
-        className="fixed inset-0 w-full h-full pointer-events-none z-0"
-        xmlns="http://www.w3.org/2000/svg"
-        style={{ opacity: 0.045 }}
+      {/* Paisley tapestry — static background-image, painted once */}
+      <div
+        className="fixed inset-0 pointer-events-none z-0"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,${paisleySvg}")`,
+          backgroundRepeat: "repeat",
+          backgroundSize: "400px 400px",
+          opacity: 0.04,
+        }}
         aria-hidden="true"
-      >
-        <defs>
-          <pattern
-            id="paisley"
-            x="0"
-            y="0"
-            width="280"
-            height="280"
-            patternUnits="userSpaceOnUse"
-            patternTransform="rotate(12)"
-          >
-            {/* Paisley droplet */}
-            <path
-              d="M140 40 C 180 40, 210 70, 210 110 C 210 150, 180 180, 145 180 C 120 180, 100 165, 95 145 C 110 155, 140 155, 160 140 C 180 125, 185 100, 170 80 C 158 65, 140 60, 125 70 C 140 50, 140 40, 140 40 Z"
-              fill="none"
-              stroke="#d4af37"
-              strokeWidth="1.2"
-            />
-            <circle cx="155" cy="100" r="4" fill="#d4af37" />
-            <circle cx="140" cy="125" r="2" fill="#d4af37" />
-            {/* Small floral motif */}
-            <g transform="translate(60,220)">
-              {[0, 60, 120, 180, 240, 300].map((r) => (
-                <ellipse
-                  key={r}
-                  cx="0"
-                  cy="-12"
-                  rx="3"
-                  ry="9"
-                  fill="#9e1b32"
-                  opacity="0.7"
-                  transform={`rotate(${r})`}
-                />
-              ))}
-              <circle r="3" fill="#d4af37" />
-            </g>
-            {/* Diamond accents */}
-            <path
-              d="M 240 240 L 250 230 L 260 240 L 250 250 Z"
-              fill="none"
-              stroke="#d4af37"
-              strokeWidth="0.8"
-            />
-            <path
-              d="M 20 60 L 28 52 L 36 60 L 28 68 Z"
-              fill="none"
-              stroke="#9e1b32"
-              strokeWidth="0.8"
-            />
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#paisley)" />
-      </svg>
-
-      {/* Grain / noise overlay for velvet texture */}
-      <svg
-        className="fixed inset-0 w-full h-full pointer-events-none z-0"
-        xmlns="http://www.w3.org/2000/svg"
-        style={{ opacity: 0.08, mixBlendMode: "overlay" }}
-        aria-hidden="true"
-      >
-        <filter id="grain">
-          <feTurbulence
-            type="fractalNoise"
-            baseFrequency="0.9"
-            numOctaves="3"
-            stitchTiles="stitch"
-          />
-          <feColorMatrix
-            values="0 0 0 0 0.85
-                    0 0 0 0 0.7
-                    0 0 0 0 0.3
-                    0 0 0 1 0"
-          />
-        </filter>
-        <rect width="100%" height="100%" filter="url(#grain)" />
-      </svg>
-
-      {/* Vignette corners for stage framing */}
+      />
+      {/* Stage vignette */}
       <div
         className="fixed inset-0 pointer-events-none z-0"
         style={{

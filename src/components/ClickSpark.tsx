@@ -52,11 +52,21 @@ export default function ClickSpark() {
           color: palette[Math.floor(Math.random() * palette.length)],
         });
       }
+      if (!running) {
+        running = true;
+        rafId = requestAnimationFrame(render);
+      }
     };
     window.addEventListener("click", onClick);
 
     let rafId = 0;
+    let running = false;
     const render = () => {
+      if (sparks.length === 0) {
+        ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+        running = false;
+        return; // idle — stop requesting frames
+      }
       ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
       for (let i = sparks.length - 1; i >= 0; i--) {
         const s = sparks[i];
@@ -86,7 +96,6 @@ export default function ClickSpark() {
       }
       rafId = requestAnimationFrame(render);
     };
-    render();
 
     return () => {
       window.removeEventListener("resize", resize);

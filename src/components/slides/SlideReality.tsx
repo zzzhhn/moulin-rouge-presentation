@@ -155,7 +155,6 @@ export default function SlideReality({ isActive }: Props) {
                       ? "rgba(158,27,50,0.35)"
                       : "rgba(212,175,55,0.25)"
                   }`,
-                  backdropFilter: "blur(6px)",
                 }}
               >
                 <div className="flex items-baseline gap-3 mb-1">
