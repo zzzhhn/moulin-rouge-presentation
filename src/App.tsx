@@ -7,6 +7,7 @@ import ClickSpark from "./components/ClickSpark";
 import ProgressBar from "./components/ProgressBar";
 import SpeakerNotes from "./components/SpeakerNotes";
 import StageCurtain, { type CurtainState } from "./components/StageCurtain";
+import AssetPreloader from "./components/AssetPreloader";
 
 // Slides
 import SlideLanding from "./components/slides/SlideLanding";
@@ -264,6 +265,7 @@ export default function App() {
         boostSpeed={currentSlide === slides.length - 1}
       />
       <ClickSpark />
+      <AssetPreloader />
 
       <main className="relative z-10 w-full h-full">
         {slides.map((Slide, i) => (

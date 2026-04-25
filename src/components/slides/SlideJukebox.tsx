@@ -29,7 +29,7 @@ const TRACKS: Track[] = [
     era: "2001",
     labelColor: "#d4af37",
     accent: "#f4e4c1",
-    src: "/audio/your-song-clip.mp3",
+    src: "/audio/your-song-clip.mp4",
     captions: [
       "① The poet's first gift",
       "② Borrowed poetry, sincere intent",
@@ -45,7 +45,7 @@ const TRACKS: Track[] = [
     era: "2001",
     labelColor: "#9e1b32",
     accent: "#f4e4c1",
-    src: "/audio/lady-marmalade-clip.mp3",
+    src: "/audio/lady-marmalade-clip.mp4",
     captions: [
       "① The opening number",
       "② Flesh, feathers, fantasy",
@@ -61,7 +61,7 @@ const TRACKS: Track[] = [
     era: "2001",
     labelColor: "#7a1f2e",
     accent: "#d4af37",
-    src: "/audio/come-what-may-clip.mp3",
+    src: "/audio/come-what-may-clip.mp4",
     captions: [
       "① The only original song",
       "② The lovers' secret promise",
@@ -77,7 +77,7 @@ const TRACKS: Track[] = [
     era: "2019",
     labelColor: "#1e3a5f",
     accent: "#d4af37",
-    src: "/audio/chandelier-clip.mp3",
+    src: "/audio/chandelier-clip.mp4",
     captions: [
       "① Sung by Zidler in 2019",
       "② A man swinging from his own empire",
@@ -93,7 +93,7 @@ const TRACKS: Track[] = [
     era: "2019",
     labelColor: "#4a0e4e",
     accent: "#f4e4c1",
-    src: "/audio/firework-clip.mp3",
+    src: "/audio/firework-clip.mp4",
     captions: [
       "① Satine's inner voice in 2019",
       "② Not just a dying courtesan anymore",
@@ -201,7 +201,7 @@ export default function SlideJukebox({ isActive }: Props) {
         ref={audioRef}
         src={selected.src}
         onEnded={() => setPlaying(false)}
-        preload="none"
+        preload="auto"
       />
 
       {/* Top heading row */}
