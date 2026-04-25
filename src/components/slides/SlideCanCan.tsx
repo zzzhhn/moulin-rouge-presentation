@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
-import { Play, Pause, Film } from "lucide-react";
+import { Play, Pause } from "lucide-react";
 import SectionHeading from "../SectionHeading";
 
 interface Props {
@@ -9,25 +9,15 @@ interface Props {
 
 const VIDEO_SRC = "/video/cancan-clip.mp4";
 
-const pillars = [
-  {
-    era: "1830s",
-    label: "Working-class Paris",
-    body:
-      "Emerging in the dancehalls of Montparnasse as an improvised, defiant solo — women lifting skirts high enough to shock a Second Empire police captain.",
-  },
-  {
-    era: "1889",
-    label: "Moulin Rouge opens",
-    body:
-      "La Goulue, Jane Avril, Mistinguett turn the dance into a chorus-line signature. The scandal becomes ticketed entertainment.",
-  },
-  {
-    era: "2019",
-    label: "Broadway reclamation",
-    body:
-      "Sonya Tayeh rewrites the can-can as collective female force — footwork as manifesto rather than titillation. The skirt is still up; the gaze has been inverted.",
-  },
+// Adjective ladder used for visual emphasis — these are the words a presenter
+// can build to before cueing the video. Treat each as a stylized poster
+// element, not running prose.
+const adjectiveLadder = [
+  "magnificent",
+  "opulent",
+  "tremendous",
+  "stupendous",
+  "gargantuan",
 ];
 
 export default function SlideCanCan({ isActive }: Props) {
@@ -48,26 +38,28 @@ export default function SlideCanCan({ isActive }: Props) {
         stagger: 0.08,
         ease: "power3.out",
       });
+      gsap.from(".cc-lead", {
+        opacity: 0,
+        y: 18,
+        duration: 0.7,
+        ease: "power2.out",
+        delay: 0.3,
+      });
+      gsap.from(".cc-adj", {
+        opacity: 0,
+        y: 16,
+        scale: 0.95,
+        duration: 0.5,
+        stagger: 0.08,
+        ease: "back.out(1.6)",
+        delay: 0.5,
+      });
       gsap.from(".cc-video-frame", {
-        scale: 0.94,
+        scale: 0.95,
         opacity: 0,
         duration: 0.9,
         ease: "power3.out",
-        delay: 0.2,
-      });
-      gsap.from(".pillar", {
-        y: 24,
-        opacity: 0,
-        duration: 0.6,
-        stagger: 0.12,
-        ease: "power2.out",
-        delay: 0.6,
-      });
-      gsap.from(".pull-quote", {
-        opacity: 0,
-        y: 20,
-        duration: 0.8,
-        delay: 1.1,
+        delay: 0.7,
       });
     }, ref);
     return () => ctx.revert();
@@ -94,41 +86,65 @@ export default function SlideCanCan({ isActive }: Props) {
   return (
     <div
       ref={ref}
-      className="h-full w-full flex flex-col gap-5 px-10 lg:px-16 py-8"
+      className="h-full w-full grid grid-cols-12 gap-6 px-10 lg:px-16 py-8"
     >
-      {/* TOP ROW: compact heading (left) + pull quote (right) */}
-      <div className="flex items-end justify-between gap-8">
+      {/* LEFT (5/12): heading + commentary + adjective ladder */}
+      <div className="col-span-12 lg:col-span-5 flex flex-col gap-5 justify-center">
         <div className="cc-heading">
           <SectionHeading
             number="02"
-            kicker="Dance as female power"
+            kicker="The dance of dissipation"
             title="The Can-Can"
           />
         </div>
-        <blockquote className="pull-quote hidden lg:block font-display italic text-rouge-100/80 text-lg max-w-md text-right border-r-2 border-rouge-100 pr-4">
-          "A kick line, yes. But whose gaze are we dancing for now?"
-        </blockquote>
+
+        <div className="cc-lead font-baskerville text-rouge-50/85 text-[15.5px] leading-relaxed space-y-3 max-w-md">
+          <p>
+            A great musical cannot exist without spectacle. From the
+            crimson-and-gold dance hall to the heroine's diamond-glittered
+            skirt, every frame whispers the same thing —{" "}
+            <span className="text-rouge-100">luxury and decadence</span>.
+          </p>
+          <p>
+            And what most embodies that abandon is one dance: the can-can. An
+            erotic, violent, vibrant scene that captures the wild Bohemian
+            spirit of the entire production.
+          </p>
+        </div>
+
+        {/* Adjective ladder — Toulouse-Lautrec's "Spectacular Spectacular"
+            cue, rendered as stacked typography that builds to the video */}
+        <div className="flex flex-col gap-1 mt-2">
+          <span className="font-cinzel text-rouge-100/70 text-[10px] tracking-[0.4em]">
+            "It will be —"
+          </span>
+          {adjectiveLadder.map((adj, i) => (
+            <span
+              key={adj}
+              className="cc-adj font-script text-rouge-100 leading-[0.95]"
+              style={{
+                fontSize: `${1.6 + i * 0.35}rem`,
+                paddingLeft: `${i * 0.5}rem`,
+                filter: "drop-shadow(0 0 18px rgba(212,175,55,0.25))",
+              }}
+            >
+              {adj}
+              {i < adjectiveLadder.length - 1 ? "," : "!"}
+            </span>
+          ))}
+        </div>
       </div>
 
-      {/* MIDDLE: big video taking most of the viewport width */}
-      <div className="flex-1 min-h-0 flex items-center justify-center">
+      {/* RIGHT (7/12): big video frame */}
+      <div className="col-span-12 lg:col-span-7 flex items-center justify-center">
         <div
-          className="cc-video-frame relative w-full max-w-5xl aspect-video rounded-lg overflow-hidden"
+          className="cc-video-frame relative w-full aspect-video rounded-lg overflow-hidden"
           style={{
-            border: "1px solid rgba(212,175,55,0.35)",
+            border: "1px solid rgba(212,175,55,0.4)",
             boxShadow:
-              "0 30px 70px rgba(0,0,0,0.6), inset 0 0 0 7px rgba(10,2,2,0.9), inset 0 0 0 8px rgba(212,175,55,0.45)",
+              "0 30px 70px rgba(0,0,0,0.6), inset 0 0 0 6px rgba(10,2,2,0.9), inset 0 0 0 7px rgba(212,175,55,0.5)",
           }}
         >
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              background:
-                "repeating-linear-gradient(90deg, rgba(158,27,50,0.05) 0 14px, transparent 14px 28px)",
-              mixBlendMode: "overlay",
-            }}
-            aria-hidden="true"
-          />
           <video
             ref={videoRef}
             src={VIDEO_SRC}
@@ -137,19 +153,16 @@ export default function SlideCanCan({ isActive }: Props) {
             onError={() => setVideoReady(false)}
             onEnded={() => setPlaying(false)}
             preload="metadata"
+            playsInline
           />
 
           {!videoReady && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-rouge-700/85 text-center px-6">
-              <Film className="text-rouge-100/70" size={60} strokeWidth={1.2} />
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-rouge-700/85 text-center px-6">
               <div className="font-cinzel text-rouge-100 text-sm tracking-[0.4em]">
-                VIDEO PLACEHOLDER
+                LOADING VIDEO…
               </div>
-              <div className="font-baskerville italic text-rouge-50/60 text-base max-w-md">
-                Drop the Can-Can clip at{" "}
-                <code className="font-mono text-rouge-100/80 text-sm">
-                  public/video/cancan-clip.mp4
-                </code>
+              <div className="font-baskerville italic text-rouge-50/60 text-sm">
+                If the video does not appear, refresh the page.
               </div>
             </div>
           )}
@@ -180,43 +193,17 @@ export default function SlideCanCan({ isActive }: Props) {
             </button>
           )}
 
-          {/* Attribution stripe along bottom of video frame */}
+          {/* Attribution stripe */}
           <div className="absolute left-6 bottom-4 flex items-center gap-3 pointer-events-none">
             <span className="font-cinzel text-rouge-50/55 text-[10px] tracking-[0.35em]">
-              CHOREOGRAPHY
+              SPECTACULAR SPECTACULAR
             </span>
             <span className="h-px w-6 bg-rouge-100/50" />
             <span className="font-baskerville italic text-rouge-50/70 text-sm">
-              Sonya Tayeh · 2019 Production
+              Moulin Rouge!
             </span>
           </div>
         </div>
-      </div>
-
-      {/* BOTTOM ROW: 3 era pillars side-by-side */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
-        {pillars.map((p) => (
-          <div
-            key={p.era}
-            className="pillar relative rounded-lg p-4 pl-6"
-            style={{
-              background: "rgba(10,2,2,0.45)",
-              borderLeft: "2px solid #d4af37",
-            }}
-          >
-            <div className="flex items-baseline gap-3 mb-1">
-              <span className="font-display text-rouge-100 text-3xl">
-                {p.era}
-              </span>
-              <span className="font-cinzel text-rouge-50/70 text-[10px] tracking-[0.28em] uppercase">
-                {p.label}
-              </span>
-            </div>
-            <p className="font-baskerville text-rouge-50/80 text-[13.5px] leading-snug">
-              {p.body}
-            </p>
-          </div>
-        ))}
       </div>
     </div>
   );

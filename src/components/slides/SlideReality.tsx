@@ -6,34 +6,27 @@ interface Props {
   isActive: boolean;
 }
 
-const timeline = [
+const stats = [
+  { figure: "$28M", label: "Production cost" },
+  { figure: "78", label: "Pop hits in the score" },
+  { figure: "10", label: "Tony Awards" },
+];
+
+const mirror = [
   {
-    date: "Jul 25, 2019",
-    event: "Broadway Opening",
-    body:
-      "Moulin Rouge! opens at the Al Hirschfeld Theatre. Sold-out houses for the first eight months.",
+    side: "ON STAGE",
+    role: "Satine",
+    line: "A nightclub star, hailed as the Sparkling Diamond. To save her lover and the show, she sacrifices herself — and dies in his arms.",
+    closing: "She dies for love.",
     tone: "gold",
   },
   {
-    date: "Mar 12, 2020",
-    event: "Shutdown",
-    body:
-      "The Broadway League suspends all performances. Marquees go dark for the first time since 9/11.",
+    side: "BEHIND THE SCENES",
+    role: "Karen Olivo",
+    line:
+      "Refused to return to the role. Refused to be a diamond merely admired and consumed. Refused to trade her principles for the silence of an industry.",
+    closing: "She leaves — to live for justice.",
     tone: "red",
-  },
-  {
-    date: "Sep 24, 2021",
-    event: "Reopening",
-    body:
-      "After 561 dark days, the company returns. The windmill turns again for a masked, vaccinated audience.",
-    tone: "gold",
-  },
-  {
-    date: "2022 →",
-    event: "Afterlife",
-    body:
-      "Touring productions launch in the US, UK, Japan, Australia. The show becomes one of the pandemic's most resilient survivors.",
-    tone: "gold",
   },
 ];
 
@@ -46,38 +39,40 @@ export default function SlideReality({ isActive }: Props) {
     hasAnimated.current = true;
     const ctx = gsap.context(() => {
       gsap.from(".rl-heading > *", {
-        y: 40,
+        y: 30,
         opacity: 0,
-        duration: 0.8,
+        duration: 0.7,
+        stagger: 0.08,
+        ease: "power3.out",
+      });
+      gsap.from(".rl-stat", {
+        y: 24,
+        opacity: 0,
+        duration: 0.55,
         stagger: 0.1,
-        ease: "power3.out",
-      });
-      gsap.from(".rl-intro", {
-        opacity: 0,
-        y: 20,
-        duration: 0.8,
-        delay: 0.3,
-      });
-      gsap.from(".rl-timeline .tl-row", {
-        x: -40,
-        opacity: 0,
-        duration: 0.6,
-        stagger: 0.15,
         ease: "power2.out",
-        delay: 0.6,
+        delay: 0.4,
       });
-      gsap.from(".rl-line", {
-        scaleY: 0,
-        duration: 1.2,
+      gsap.from(".rl-protest", {
+        opacity: 0,
+        scale: 0.96,
+        duration: 0.8,
         ease: "power3.out",
-        delay: 0.5,
-        transformOrigin: "top center",
+        delay: 0.8,
       });
-      gsap.from(".rl-closer", {
+      gsap.from(".rl-mirror", {
+        x: (i) => (i === 0 ? -40 : 40),
+        opacity: 0,
+        duration: 0.7,
+        stagger: 0.15,
+        ease: "power3.out",
+        delay: 1.1,
+      });
+      gsap.from(".rl-question", {
         opacity: 0,
         y: 20,
-        duration: 1,
-        delay: 1.4,
+        duration: 0.9,
+        delay: 1.7,
       });
     }, ref);
     return () => ctx.revert();
@@ -86,93 +81,125 @@ export default function SlideReality({ isActive }: Props) {
   return (
     <div
       ref={ref}
-      className="h-full w-full grid grid-cols-1 lg:grid-cols-12 gap-10 items-center px-10 lg:px-20 py-16"
+      className="h-full w-full flex flex-col gap-5 px-10 lg:px-16 py-8"
     >
-      {/* LEFT: heading + reflection */}
-      <div className="lg:col-span-5 flex flex-col gap-6">
-        <div className="rl-heading">
-          <SectionHeading
-            number="05"
-            kicker="Bohemia meets a pandemic"
-            title="The Show Must Go On"
-          />
-        </div>
-
-        <div className="rl-intro font-baskerville text-rouge-50/85 text-[17px] leading-relaxed space-y-4">
-          <p>
-            Moulin Rouge! opened on Broadway just <em>234 days</em> before the
-            world's largest theatre district went dark. When the windmill
-            stopped turning, so did the economies of Times Square, West End,
-            Sydney, and the touring circuits that feed them.
-          </p>
-          <p>
-            A musical about four Bohemians clinging to{" "}
-            <span className="text-rouge-100">Truth, Beauty, Freedom, Love</span>{" "}
-            inside a failing cabaret suddenly read less like nostalgia than
-            prophecy.
-          </p>
-        </div>
-
-        <blockquote
-          className="rl-closer font-display italic text-rouge-50/85 text-xl md:text-2xl border-l-2 border-rouge-100 pl-4 mt-2"
-        >
-          "The show must go on" — once a cabaret cliché, then a 2020 slogan
-          scrawled on shuttered theatre doors in a dozen languages.
-        </blockquote>
+      <div className="rl-heading">
+        <SectionHeading
+          number="05"
+          kicker="A diamond who refused to shine"
+          title="The Show vs. The Industry"
+        />
       </div>
 
-      {/* RIGHT: pandemic timeline */}
-      <div className="lg:col-span-7 relative">
-        <div className="rl-timeline relative pl-12 lg:pl-16">
+      {/* Top stat strip — the spectacle in numbers */}
+      <div className="grid grid-cols-3 gap-4">
+        {stats.map((s) => (
           <div
-            className="rl-line absolute left-4 lg:left-6 top-2 bottom-2 w-px"
+            key={s.label}
+            className="rl-stat flex items-baseline gap-3 px-4 py-3 rounded-md"
             style={{
-              background:
-                "linear-gradient(180deg, transparent 0%, rgba(212,175,55,0.6) 10%, rgba(158,27,50,0.6) 50%, rgba(212,175,55,0.6) 90%, transparent 100%)",
+              background: "rgba(10,2,2,0.45)",
+              borderLeft: "2px solid #d4af37",
             }}
-            aria-hidden="true"
-          />
-          {timeline.map((t) => (
-            <div key={t.date} className="tl-row relative mb-8 last:mb-0">
-              <div
-                className={`absolute -left-12 lg:-left-16 top-2 w-6 h-6 rounded-full flex items-center justify-center`}
-                style={{
-                  background: t.tone === "red" ? "#9e1b32" : "#d4af37",
-                  boxShadow: `0 0 15px ${
-                    t.tone === "red" ? "rgba(158,27,50,0.5)" : "rgba(212,175,55,0.5)"
-                  }`,
-                }}
-              >
-                <span className="w-2 h-2 rounded-full bg-rouge-700" />
-              </div>
-              <div
-                className="p-4 rounded-lg relative"
-                style={{
-                  background: "rgba(10,2,2,0.5)",
-                  border: `1px solid ${
-                    t.tone === "red"
-                      ? "rgba(158,27,50,0.35)"
-                      : "rgba(212,175,55,0.25)"
-                  }`,
-                }}
-              >
-                <div className="flex items-baseline gap-3 mb-1">
-                  <span className="font-cinzel text-rouge-100 text-[11px] tracking-[0.3em]">
-                    {t.date}
-                  </span>
-                  <span className="h-px w-6 bg-rouge-100/40" />
-                  <span className="font-display italic text-rouge-50 text-lg">
-                    {t.event}
-                  </span>
-                </div>
-                <p className="font-baskerville text-rouge-50/75 text-[14.5px] leading-relaxed">
-                  {t.body}
-                </p>
-              </div>
-            </div>
-          ))}
+          >
+            <span className="font-display text-rouge-100 text-3xl md:text-4xl tabular-nums">
+              {s.figure}
+            </span>
+            <span className="font-cinzel text-rouge-50/65 text-[10px] tracking-[0.3em] uppercase">
+              {s.label}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      {/* The protest — Karen Olivo */}
+      <div
+        className="rl-protest relative rounded-lg p-5 md:p-6 flex flex-col md:flex-row gap-4 md:gap-6 items-start"
+        style={{
+          background:
+            "linear-gradient(135deg, rgba(122,31,46,0.25) 0%, rgba(10,2,2,0.55) 100%)",
+          border: "1px solid rgba(158,27,50,0.5)",
+        }}
+      >
+        <div className="shrink-0 flex flex-col gap-1">
+          <div className="font-cinzel text-rouge-200 text-[10px] tracking-[0.4em]">
+            APRIL 2021
+          </div>
+          <div className="font-display italic text-rouge-50 text-2xl md:text-3xl leading-tight">
+            Karen Olivo
+          </div>
+          <div className="font-baskerville text-rouge-50/65 text-xs">
+            Tony nominee · Satine in the original Broadway cast
+          </div>
+        </div>
+        <div className="flex-1 flex flex-col gap-2">
+          <blockquote className="font-display italic text-rouge-100 text-lg md:text-xl leading-snug border-l-2 border-rouge-100 pl-4">
+            "Social justice is more important than being a shining diamond."
+          </blockquote>
+          <p className="font-baskerville text-rouge-50/80 text-[14px] leading-relaxed">
+            On Instagram, she announced she would not return to the show — a
+            protest against Broadway's collective silence on producer Scott
+            Rudin's history of workplace abuse. The industry, she said, "puts
+            profits above people."
+          </p>
         </div>
       </div>
+
+      {/* The mirror — stage vs reality */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1 min-h-0">
+        {mirror.map((m) => (
+          <article
+            key={m.side}
+            className="rl-mirror relative rounded-lg p-5 flex flex-col gap-3"
+            style={{
+              background: "rgba(10,2,2,0.5)",
+              border:
+                m.tone === "red"
+                  ? "1px solid rgba(158,27,50,0.45)"
+                  : "1px solid rgba(212,175,55,0.35)",
+            }}
+          >
+            <div className="flex items-center gap-3">
+              <span
+                className="font-cinzel text-[10px] tracking-[0.4em]"
+                style={{ color: m.tone === "red" ? "#f4e4c1" : "#d4af37" }}
+              >
+                {m.side}
+              </span>
+              <span
+                className="h-px flex-1"
+                style={{
+                  background:
+                    m.tone === "red"
+                      ? "rgba(158,27,50,0.5)"
+                      : "rgba(212,175,55,0.4)",
+                }}
+              />
+            </div>
+            <h3
+              className="font-display italic text-2xl md:text-3xl leading-tight"
+              style={{ color: m.tone === "red" ? "#f4e4c1" : "#f4e4c1" }}
+            >
+              {m.role}
+            </h3>
+            <p className="font-baskerville text-rouge-50/85 text-[14px] leading-relaxed">
+              {m.line}
+            </p>
+            <p
+              className="font-display italic text-base mt-auto"
+              style={{ color: m.tone === "red" ? "#9e1b32" : "#d4af37" }}
+            >
+              {m.closing}
+            </p>
+          </article>
+        ))}
+      </div>
+
+      <p className="rl-question font-display italic text-rouge-50/90 text-base md:text-lg text-center max-w-4xl mx-auto leading-snug">
+        If an industry's dream can only be built on the consumption of its
+        practitioners' health and dignity —{" "}
+        <span className="text-rouge-100">how long can that dream last?</span>
+      </p>
     </div>
   );
 }

@@ -28,12 +28,12 @@ const slides = [
 ];
 
 const slideNotes = [
-  "[Cover] Welcome, we are Group presenting Moulin Rouge! The Musical — A Century of Dreams.",
-  "[01 · Introduction] Overview of Moulin Rouge! — origin as 2001 Baz Luhrmann film, Broadway adaptation premiered 2019, Tony Award winner 2020.",
-  "[02 · The Can-Can] From 19th century Parisian defiance to modern female empowerment. [Video clip here]",
-  "[03 · The Jukebox] Jukebox musical format — 2019 production added contemporary songs (Firework, Chandelier) to the 2001 canon.",
-  "[04 · Themes & La Traviata] Comparing Moulin Rouge with La Traviata / La Dame aux camélias — the courtesan-tragedy archetype across centuries.",
-  "[05 · Pandemic Reality] The 2019 production and the pandemic — theatre under shutdown, the meaning of 'show must go on' in 2020–2021.",
+  "[Cover] Welcome — Moulin Rouge! The Musical, A Century of Dreams.",
+  "[01 · Story] 1899 Paris. Christian (poet) meets Satine (star). Their love is hunted by the Duke. Satine is dying. The premiere is a triumph; she dies in his arms.",
+  "[02 · Can-Can] Spectacle as theme — luxury, decadence, the wild Bohemian spirit. Cue the can-can clip.",
+  "[03 · Jukebox] Jukebox format = pop music as narrative. 2001 film: Your Song / Lady Marmalade / Come What May. 2019 Broadway adds Chandelier (Zidler) + Firework (Satine, post-#MeToo).",
+  "[04 · Themes] Four creeds — Truth, Beauty, Freedom, Love. Five thematic dimensions: Love as truth / Illusion vs reality / Class & gender / Art as resistance / Eternity through death.",
+  "[05 · Stage vs Industry] $28M, 78 hits, 10 Tonys. April 2021: Karen Olivo refused to return — 'Social justice is more important than being a shining diamond.' Stage Satine dies for love; real Olivo lives for justice.",
   "[Q & A] Thank you. Questions welcomed.",
 ];
 

@@ -2,11 +2,11 @@ import { useState } from "react";
 
 const slideTitles = [
   "Moulin Rouge!",
-  "01 · Introduction",
+  "01 · The Story",
   "02 · The Can-Can",
   "03 · The Jukebox",
-  "04 · Themes & La Traviata",
-  "05 · Pandemic Reality",
+  "04 · Truth · Beauty · Freedom · Love",
+  "05 · Stage vs. Industry",
   "Q & A",
 ];
 
