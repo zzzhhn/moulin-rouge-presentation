@@ -25,7 +25,11 @@ export default function SlideCanCan({ isActive }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const hasAnimated = useRef(false);
   const [playing, setPlaying] = useState(false);
-  const [videoReady, setVideoReady] = useState(false);
+  // Assume the video is fine on mount; only flip to false on a real <video>
+  // error event. Earlier we gated this on `onCanPlay`, which never fires
+  // reliably together with preload="metadata" — the placeholder then
+  // sat on top of the video forever.
+  const [videoReady, setVideoReady] = useState(true);
 
   useEffect(() => {
     if (!isActive || !ref.current || hasAnimated.current) return;
@@ -149,20 +153,19 @@ export default function SlideCanCan({ isActive }: Props) {
             ref={videoRef}
             src={VIDEO_SRC}
             className="w-full h-full object-cover"
-            onCanPlay={() => setVideoReady(true)}
             onError={() => setVideoReady(false)}
             onEnded={() => setPlaying(false)}
-            preload="metadata"
+            preload="auto"
             playsInline
           />
 
           {!videoReady && (
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-rouge-700/85 text-center px-6">
               <div className="font-cinzel text-rouge-100 text-sm tracking-[0.4em]">
-                LOADING VIDEO…
+                VIDEO UNAVAILABLE
               </div>
               <div className="font-baskerville italic text-rouge-50/60 text-sm">
-                If the video does not appear, refresh the page.
+                The video failed to load. Try a hard refresh (Cmd+Shift+R).
               </div>
             </div>
           )}
