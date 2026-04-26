@@ -8,6 +8,15 @@ interface Props {
   isActive: boolean;
 }
 
+// LyricLine.text is intentionally a placeholder. Replace these strings
+// LOCALLY before each presentation (see public-deployed code policy: do
+// not commit / push / deploy real lyric strings). The displayMs values
+// match the per-line timing the group worked out against each audio clip.
+type LyricLine = {
+  text: string;
+  displayMs: number;
+};
+
 type Track = {
   id: string;
   title: string;
@@ -17,7 +26,7 @@ type Track = {
   labelColor: string;
   accent: string;
   src: string;
-  captions: string[];
+  lyrics: LyricLine[];
 };
 
 const TRACKS: Track[] = [
@@ -30,11 +39,10 @@ const TRACKS: Track[] = [
     labelColor: "#d4af37",
     accent: "#f4e4c1",
     src: "/audio/your-song-clip.mp4",
-    captions: [
-      "① The poet's first gift",
-      "② Borrowed poetry, sincere intent",
-      "③ How Christian wins her heart",
-      "④ A simple song, completely disarming",
+    lyrics: [
+      { text: "[Line 1 — replace locally]", displayMs: 4000 },
+      { text: "[Line 2 — replace locally]", displayMs: 4000 },
+      { text: "[Line 3 — replace locally]", displayMs: 5000 },
     ],
   },
   {
@@ -46,11 +54,10 @@ const TRACKS: Track[] = [
     labelColor: "#9e1b32",
     accent: "#f4e4c1",
     src: "/audio/lady-marmalade-clip.mp4",
-    captions: [
-      "① The opening number",
-      "② Flesh, feathers, fantasy",
-      "③ Everything is for sale here",
-      "④ Including the illusion of romance",
+    lyrics: [
+      { text: "[Line 1 — replace locally]", displayMs: 4000 },
+      { text: "[Line 2 — replace locally]", displayMs: 4000 },
+      { text: "[Line 3 — replace locally]", displayMs: 4000 },
     ],
   },
   {
@@ -62,11 +69,9 @@ const TRACKS: Track[] = [
     labelColor: "#7a1f2e",
     accent: "#d4af37",
     src: "/audio/come-what-may-clip.mp4",
-    captions: [
-      "① The only original song",
-      "② The lovers' secret promise",
-      "③ A melody that belongs only to them",
-      "④ No matter how dark the world gets",
+    lyrics: [
+      { text: "[Line 1 — replace locally]", displayMs: 6000 },
+      { text: "[Line 2 — replace locally]", displayMs: 7000 },
     ],
   },
   {
@@ -78,11 +83,10 @@ const TRACKS: Track[] = [
     labelColor: "#1e3a5f",
     accent: "#d4af37",
     src: "/audio/chandelier-clip.mp4",
-    captions: [
-      "① Sung by Zidler in 2019",
-      "② A man swinging from his own empire",
-      "③ Drunk on champagne and desperation",
-      "④ A warning that the club will implode",
+    lyrics: [
+      { text: "[Line 1 — replace locally]", displayMs: 1000 },
+      { text: "[Line 2 — replace locally]", displayMs: 7000 },
+      { text: "[Line 3 — replace locally]", displayMs: 4000 },
     ],
   },
   {
@@ -94,11 +98,10 @@ const TRACKS: Track[] = [
     labelColor: "#4a0e4e",
     accent: "#f4e4c1",
     src: "/audio/firework-clip.mp4",
-    captions: [
-      "① Satine's inner voice in 2019",
-      "② Not just a dying courtesan anymore",
-      "③ A woman who can still ignite",
-      "④ Rewritten for a post-#MeToo audience",
+    lyrics: [
+      { text: "[Line 1 — replace locally]", displayMs: 4000 },
+      { text: "[Line 2 — replace locally]", displayMs: 4000 },
+      { text: "[Line 3 — replace locally]", displayMs: 3000 },
     ],
   },
 ];
@@ -112,9 +115,22 @@ export default function SlideJukebox({ isActive }: Props) {
   const hasAnimated = useRef(false);
   const [selectedId, setSelectedId] = useState<string>(TRACKS[0].id);
   const [playing, setPlaying] = useState(false);
-  const [captionIdx, setCaptionIdx] = useState(0);
+  const [lyricIdx, setLyricIdx] = useState(0);
 
   const selected = TRACKS.find((t) => t.id === selectedId) || TRACKS[0];
+
+  // Map cumulative ms boundaries for the current track's lyric lines once
+  // per track. e.g. lyrics[0] visible from 0..displayMs, lyrics[1] from
+  // displayMs..displayMs+displayMs, etc.
+  const lyricBoundaries = (() => {
+    const arr: number[] = [];
+    let cum = 0;
+    for (const l of selected.lyrics) {
+      cum += l.displayMs;
+      arr.push(cum);
+    }
+    return arr;
+  })();
 
   const pauseAll = () => {
     Object.values(audioRefs.current).forEach((a) => {
@@ -173,13 +189,30 @@ export default function SlideJukebox({ isActive }: Props) {
     }
   }, [isActive]);
 
+  // Drive the active lyric line off audio.currentTime via rAF — pause/resume
+  // stays in sync, and the line flips at the exact moment the boundary is
+  // crossed instead of every 2.5s like the old setInterval.
   useEffect(() => {
     if (!playing) return;
-    const id = window.setInterval(() => {
-      setCaptionIdx((i) => (i + 1) % selected.captions.length);
-    }, 2500);
-    return () => window.clearInterval(id);
-  }, [playing, selected.captions.length]);
+    const audio = audioRefs.current[selectedId];
+    if (!audio) return;
+
+    let raf = 0;
+    const tick = () => {
+      const tMs = audio.currentTime * 1000;
+      let idx = lyricBoundaries.length - 1;
+      for (let i = 0; i < lyricBoundaries.length; i++) {
+        if (tMs < lyricBoundaries[i]) {
+          idx = i;
+          break;
+        }
+      }
+      setLyricIdx(idx);
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [playing, selectedId, lyricBoundaries]);
 
   const handleSelect = (id: string) => {
     if (id === selectedId) {
@@ -188,7 +221,7 @@ export default function SlideJukebox({ isActive }: Props) {
     }
     pauseAll();
     setSelectedId(id);
-    setCaptionIdx(0);
+    setLyricIdx(0);
     // Auto-play the newly selected track from the start. Each track has
     // its own warm <audio> element, so play() resolves instantly.
     const next = audioRefs.current[id];
@@ -254,24 +287,24 @@ export default function SlideJukebox({ isActive }: Props) {
               <button
                 key={t.id}
                 onClick={() => handleSelect(t.id)}
-                className={`jb-shelf-item group flex items-center gap-3 p-2 pr-4 rounded-md transition-all ${
+                className={`jb-shelf-item group flex items-center gap-4 p-3 pr-4 rounded-lg transition-all ${
                   active
                     ? "bg-rouge-100/10 ring-1 ring-rouge-100/50"
                     : "hover:bg-rouge-100/5"
                 }`}
               >
-                {/* Small vinyl thumbnail */}
+                {/* Vinyl thumbnail */}
                 <div
-                  className="relative w-12 h-12 rounded-full shrink-0"
+                  className="relative w-16 h-16 rounded-full shrink-0"
                   style={{
                     background:
                       "repeating-radial-gradient(circle, #111 0 1px, #1a1a1a 1px 2.5px)",
                     border: active
-                      ? `1.5px solid ${t.labelColor}`
-                      : "1px solid rgba(212,175,55,0.2)",
+                      ? `2px solid ${t.labelColor}`
+                      : "1px solid rgba(212,175,55,0.25)",
                     boxShadow: active
-                      ? `0 0 12px ${t.labelColor}55`
-                      : "0 2px 4px rgba(0,0,0,0.4)",
+                      ? `0 0 18px ${t.labelColor}66, 0 4px 10px rgba(0,0,0,0.4)`
+                      : "0 3px 6px rgba(0,0,0,0.45)",
                   }}
                 >
                   <div
@@ -280,27 +313,27 @@ export default function SlideJukebox({ isActive }: Props) {
                       width: "50%",
                       height: "50%",
                       background: t.labelColor,
-                      border: `1px solid ${t.accent}`,
+                      border: `1.5px solid ${t.accent}`,
                     }}
                   />
                   <div
-                    className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-1 h-1 rounded-full"
+                    className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full"
                     style={{ background: "#0a0202" }}
                   />
                 </div>
                 {/* Track label */}
                 <div className="flex-1 text-left min-w-0">
                   <div
-                    className={`font-display italic text-sm leading-tight truncate ${
+                    className={`font-display italic text-base lg:text-lg leading-tight truncate ${
                       active
                         ? "text-rouge-100"
-                        : "text-rouge-50/80 group-hover:text-rouge-50"
+                        : "text-rouge-50/85 group-hover:text-rouge-50"
                     }`}
                   >
                     {t.title}
                   </div>
                   <div
-                    className={`font-cinzel text-[9px] tracking-[0.25em] mt-0.5 ${
+                    className={`font-cinzel text-[10px] tracking-[0.3em] mt-1 ${
                       t.era === "2019" ? "text-rouge-200" : "text-rouge-50/50"
                     }`}
                   >
@@ -311,9 +344,9 @@ export default function SlideJukebox({ isActive }: Props) {
                 {active && (
                   <span className="shrink-0">
                     {playing ? (
-                      <Pause className="text-rouge-100" size={14} />
+                      <Pause className="text-rouge-100" size={18} />
                     ) : (
-                      <Play className="text-rouge-100" size={14} />
+                      <Play className="text-rouge-100" size={18} />
                     )}
                   </span>
                 )}
@@ -378,28 +411,43 @@ export default function SlideJukebox({ isActive }: Props) {
           </div>
 
           <div
-            className="rounded-lg p-4 flex-1"
+            className="rounded-lg p-5 lg:p-6 flex-1 flex flex-col"
             style={{
-              background: "rgba(10,2,2,0.55)",
-              border: "1px solid rgba(212,175,55,0.25)",
+              background: "rgba(10,2,2,0.6)",
+              border: "1px solid rgba(212,175,55,0.3)",
+              minHeight: "230px",
             }}
           >
-            <div className="font-cinzel text-rouge-100/70 text-[10px] tracking-[0.4em] mb-3">
-              10-SEC PREVIEW · SCENE MARKERS
+            <div className="font-cinzel text-rouge-100/75 text-[10px] tracking-[0.45em] mb-4 shrink-0">
+              LYRICS
             </div>
-            <ul className="space-y-2.5 font-baskerville text-rouge-50/80 text-sm">
-              {selected.captions.map((line, i) => (
-                <li
-                  key={i}
-                  className={`transition-all duration-500 ${
-                    i === captionIdx && playing
-                      ? "text-rouge-100 italic translate-x-2"
-                      : "opacity-60"
-                  }`}
-                >
-                  {line}
-                </li>
-              ))}
+            <ul className="flex-1 flex flex-col justify-center gap-3 font-baskerville">
+              {selected.lyrics.map((line, i) => {
+                const isActive = i === lyricIdx && playing;
+                const isPast = i < lyricIdx && playing;
+                return (
+                  <li
+                    key={i}
+                    className="leading-snug"
+                    style={{
+                      color: isActive ? "#f4e4c1" : "#f4e4c180",
+                      fontSize: isActive ? "1.35rem" : "1rem",
+                      fontStyle: isActive ? "italic" : "normal",
+                      opacity: isActive ? 1 : isPast ? 0.35 : 0.55,
+                      transform: isActive
+                        ? "translateX(8px) scale(1.02)"
+                        : "translateX(0) scale(1)",
+                      textShadow: isActive
+                        ? "0 0 18px rgba(212,175,55,0.45)"
+                        : "none",
+                      transition:
+                        "color 0.6s ease, font-size 0.5s cubic-bezier(0.32, 0.72, 0.4, 1), opacity 0.6s ease, transform 0.5s cubic-bezier(0.32, 0.72, 0.4, 1), text-shadow 0.6s ease",
+                    }}
+                  >
+                    {line.text}
+                  </li>
+                );
+              })}
             </ul>
           </div>
         </div>
