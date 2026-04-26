@@ -140,9 +140,15 @@ export default function SlideLanding({ isActive }: SlideLandingProps) {
                 Rouge
               </span>
               <span
-                className="title-word inline-block text-[clamp(4.5rem,10vw,10rem)] text-rouge-200 ml-2"
+                className="title-word inline-block text-[clamp(4.5rem,10vw,10rem)] ml-2"
                 style={{
-                  filter: "drop-shadow(0 0 18px rgba(158,27,50,0.55))",
+                  background:
+                    "linear-gradient(180deg, #f4e4c1 0%, #d4af37 45%, #8a6a18 100%)",
+                  WebkitBackgroundClip: "text",
+                  backgroundClip: "text",
+                  color: "transparent",
+                  filter:
+                    "drop-shadow(0 2px 0 rgba(0,0,0,0.4)) drop-shadow(0 0 25px rgba(212,175,55,0.4))",
                   lineHeight: 1.1,
                 }}
               >

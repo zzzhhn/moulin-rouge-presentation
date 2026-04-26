@@ -40,9 +40,9 @@ const TRACKS: Track[] = [
     accent: "#f4e4c1",
     src: "/audio/your-song-clip.mp4",
     lyrics: [
-      { text: "[Line 1 — replace locally]", displayMs: 4000 },
-      { text: "[Line 2 — replace locally]", displayMs: 4000 },
-      { text: "[Line 3 — replace locally]", displayMs: 5000 },
+      { text: "That I put down in words", displayMs: 4000 },
+      { text: "How wonderful life is", displayMs: 4000 },
+      { text: "While you're in the world", displayMs: 5000 },
     ],
   },
   {
@@ -55,9 +55,9 @@ const TRACKS: Track[] = [
     accent: "#f4e4c1",
     src: "/audio/lady-marmalade-clip.mp4",
     lyrics: [
-      { text: "[Line 1 — replace locally]", displayMs: 4000 },
-      { text: "[Line 2 — replace locally]", displayMs: 4000 },
-      { text: "[Line 3 — replace locally]", displayMs: 4000 },
+      { text: "Hey sista go sista soul sista flow sista", displayMs: 4000 },
+      { text: "He met Marmalade down in old Moulin Rouge", displayMs: 4000 },
+      { text: "Struttin' her stuff on the street", displayMs: 4000 },
     ],
   },
   {
@@ -70,8 +70,8 @@ const TRACKS: Track[] = [
     accent: "#d4af37",
     src: "/audio/come-what-may-clip.mp4",
     lyrics: [
-      { text: "[Line 1 — replace locally]", displayMs: 6000 },
-      { text: "[Line 2 — replace locally]", displayMs: 7000 },
+      { text: "Until the end of time", displayMs: 6000 },
+      { text: "Come what may", displayMs: 7000 },
     ],
   },
   {
@@ -84,9 +84,9 @@ const TRACKS: Track[] = [
     accent: "#d4af37",
     src: "/audio/chandelier-clip.mp4",
     lyrics: [
-      { text: "[Line 1 — replace locally]", displayMs: 1000 },
-      { text: "[Line 2 — replace locally]", displayMs: 7000 },
-      { text: "[Line 3 — replace locally]", displayMs: 4000 },
+      { text: "till I lose count", displayMs: 1000 },
+      { text: "I'm gonna swing from the chandelier", displayMs: 7000 },
+      { text: "from the chandelier", displayMs: 4000 },
     ],
   },
   {
@@ -99,9 +99,9 @@ const TRACKS: Track[] = [
     accent: "#f4e4c1",
     src: "/audio/firework-clip.mp4",
     lyrics: [
-      { text: "[Line 1 — replace locally]", displayMs: 4000 },
-      { text: "[Line 2 — replace locally]", displayMs: 4000 },
-      { text: "[Line 3 — replace locally]", displayMs: 3000 },
+      { text: "'Cause baby you're a firework", displayMs: 4000 },
+      { text: "C'mon show'em what you're worth", displayMs: 4000 },
+      { text: "Make'em go aah aah aah", displayMs: 3000 },
     ],
   },
 ];
@@ -334,7 +334,7 @@ export default function SlideJukebox({ isActive }: Props) {
                   </div>
                   <div
                     className={`font-cinzel text-[10px] tracking-[0.3em] mt-1 ${
-                      t.era === "2019" ? "text-rouge-200" : "text-rouge-50/50"
+                      t.era === "2019" ? "text-rouge-100" : "text-rouge-50/50"
                     }`}
                   >
                     {t.era}

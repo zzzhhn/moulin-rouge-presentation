@@ -122,7 +122,7 @@ export default function SlideReality({ isActive }: Props) {
         }}
       >
         <div className="shrink-0 flex flex-col gap-1">
-          <div className="font-cinzel text-rouge-200 text-[10px] tracking-[0.4em]">
+          <div className="font-cinzel text-rouge-100 text-[11px] tracking-[0.4em]">
             APRIL 2021
           </div>
           <div className="font-display italic text-rouge-50 text-2xl md:text-3xl leading-tight">

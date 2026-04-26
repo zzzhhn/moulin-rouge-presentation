@@ -18,31 +18,31 @@ const themes = [
     roman: "I",
     title: "Love as the Only Truth",
     body:
-      "True love transcends money, power, and class. Christian wields his faith in love against every worldly obstacle — making love at once salvation and destruction. Precisely because it is genuine, the tragedy cuts all the deeper.",
+      "True love transcends money, power, and class — and because it is genuine, the tragedy cuts deeper.",
   },
   {
     roman: "II",
     title: "Illusion vs. Reality",
     body:
-      "The Moulin Rouge runs on illusion: performance, disguise, desire. Satine blazes onstage yet is consumed offstage by disease and fear. The film keeps asking — in a world sustained by lies, what is real?",
+      "Satine blazes onstage, dies offstage. In a world built on lies, what is real?",
   },
   {
     roman: "III",
-    title: "Class, Power, Female Destiny",
+    title: "Class, Power, Gender",
     body:
-      "The Duke uses wealth to control Satine's body and future, symbolizing patriarchal society's appropriation of female agency. Her inability to freely choose love reflects gender power imbalances that persist from the late 19th century to today.",
+      "The Duke buys Satine's body. A 19th-century power imbalance that hasn't gone away.",
   },
   {
     roman: "IV",
     title: "Art as Resistance",
     body:
-      "Music, dance, and theatre are the weapons the Bohemians deploy against oppression. Songs like Bohemian Rhapsody and The Show Must Go On are not just spectacle — they offer a spiritual escape. Art itself becomes a declaration of freedom.",
+      "Music, dance, theatre — the Bohemians' weapons. Art itself becomes a declaration of freedom.",
   },
   {
     roman: "V",
     title: "Eternity Through Death",
     body:
-      "Satine's death liberates love from the constraints of time, shielding it from decay. The tragic ending is not a defeat but a completion of meaning — he preserved her through story. Death becomes the ultimate proof of love.",
+      "Satine's death frees love from time. The tragedy is not defeat — it is love preserved through story.",
   },
 ];
 
@@ -85,12 +85,6 @@ export default function SlideThemes({ isActive }: Props) {
         stagger: 0.1,
         ease: "power2.out",
         delay: 0.9,
-      });
-      gsap.from(".th-closer", {
-        opacity: 0,
-        y: 18,
-        duration: 0.9,
-        delay: 1.6,
       });
     }, ref);
     return () => ctx.revert();
@@ -158,33 +152,27 @@ export default function SlideThemes({ isActive }: Props) {
         {themes.map((t) => (
           <article
             key={t.roman}
-            className="theme-card relative rounded-lg p-4 flex flex-col gap-2"
+            className="theme-card relative rounded-lg p-5 flex flex-col gap-3"
             style={{
               background: "rgba(10,2,2,0.55)",
               border: "1px solid rgba(212,175,55,0.22)",
             }}
           >
             <div className="flex items-baseline gap-2">
-              <span className="font-cinzel text-rouge-100 text-xl md:text-2xl tracking-wider">
+              <span className="font-cinzel text-rouge-100 text-3xl md:text-4xl tracking-wider">
                 {t.roman}
               </span>
               <span className="h-px flex-1 bg-rouge-100/30" />
             </div>
-            <h3 className="font-display italic text-rouge-50 text-lg leading-tight">
+            <h3 className="font-display italic text-rouge-50 text-xl md:text-2xl leading-tight">
               {t.title}
             </h3>
-            <p className="font-baskerville text-rouge-50/75 text-[12.5px] leading-snug">
+            <p className="font-baskerville text-rouge-50/85 text-[15px] md:text-base leading-relaxed">
               {t.body}
             </p>
           </article>
         ))}
       </div>
-
-      <p className="th-closer font-display italic text-rouge-100/85 text-base md:text-lg text-center max-w-4xl mx-auto">
-        The tension between the film's postmodern form and its classical tragic
-        core is itself a theme: amid the noise and glamour, love and suffering
-        are the only real things.
-      </p>
     </div>
   );
 }

@@ -83,7 +83,17 @@ export default function SlideQA({ isActive }: Props) {
           </span>
         ))}
 
-        <span className="qa-ampersand font-script text-[clamp(5rem,10vw,9rem)] text-rouge-200 leading-none italic">
+        <span
+          className="qa-ampersand font-script text-[clamp(5rem,10vw,9rem)] leading-none italic"
+          style={{
+            background:
+              "linear-gradient(180deg, #f4e4c1 0%, #d4af37 50%, #8a6a18 100%)",
+            WebkitBackgroundClip: "text",
+            backgroundClip: "text",
+            color: "transparent",
+            filter: "drop-shadow(0 0 22px rgba(212,175,55,0.4))",
+          }}
+        >
           &amp;
         </span>
 
