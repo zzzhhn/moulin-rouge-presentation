@@ -178,20 +178,58 @@ export default function SlideIntro({ isActive }: Props) {
   return (
     <div
       ref={ref}
-      className="h-full w-full flex flex-col gap-6 px-10 lg:px-16 py-8"
+      className="h-full w-full flex flex-col gap-5 px-10 lg:px-16 py-8"
     >
-      <div className="intro-heading">
-        <SectionHeading
-          number="01"
-          kicker="Paris · 1899 · A nightclub story"
-          title="Moulin Rouge!"
-        />
+      {/* Top strip: heading + tagline (left) | hero image (right) */}
+      <div className="grid grid-cols-12 gap-6 items-stretch shrink-0">
+        <div className="col-span-12 lg:col-span-7 flex flex-col gap-3 justify-center">
+          <div className="intro-heading">
+            <SectionHeading
+              number="01"
+              kicker="Paris · 1899 · A nightclub story"
+              title="Moulin Rouge!"
+            />
+          </div>
+          <p className="intro-tagline font-baskerville italic text-rouge-100/85 text-lg md:text-xl max-w-2xl leading-snug">
+            A poet, a courtesan, a duke, and a windmill that became the most
+            photographed roof in Paris.
+          </p>
+        </div>
+        <div className="col-span-12 lg:col-span-5 intro-hero-image">
+          <div
+            className="relative w-full h-40 md:h-48 rounded-lg overflow-hidden"
+            style={{
+              border: "1px solid rgba(212,175,55,0.4)",
+              boxShadow:
+                "0 20px 40px rgba(0,0,0,0.55), inset 0 0 0 4px rgba(10,2,2,0.85), inset 0 0 0 5px rgba(212,175,55,0.4)",
+            }}
+          >
+            <img
+              src="/images/intro-satine-singing.jpg"
+              alt="Satine performs Spectacular Spectacular"
+              className="w-full h-full object-cover"
+              loading="eager"
+              decoding="async"
+            />
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background:
+                  "linear-gradient(180deg, transparent 60%, rgba(10,2,2,0.75) 100%)",
+              }}
+            />
+            <div className="absolute left-4 bottom-3 flex items-center gap-2 pointer-events-none">
+              <span className="font-cinzel text-rouge-100 text-[10px] tracking-[0.35em]">
+                THE SPECTACULAR
+              </span>
+              <span className="h-px w-5 bg-rouge-100/55" />
+              <span className="font-baskerville italic text-rouge-50/85 text-xs">
+                Satine on stage
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
-
-      <p className="intro-tagline font-baskerville italic text-rouge-100/85 text-xl md:text-2xl max-w-4xl leading-snug">
-        A poet, a courtesan, a duke, and a windmill that became the most
-        photographed roof in Paris.
-      </p>
 
       {/* 4-act horizontal timeline. Each act is a vertical card; gold
           dashed connectors with diamond markers sit between them on lg+. */}

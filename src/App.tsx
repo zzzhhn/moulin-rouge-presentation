@@ -13,28 +13,37 @@ import AssetPreloader from "./components/AssetPreloader";
 import SlideLanding from "./components/slides/SlideLanding";
 import SlideIntro from "./components/slides/SlideIntro";
 import SlideCanCan from "./components/slides/SlideCanCan";
+import SlideCanCan2 from "./components/slides/SlideCanCan2";
 import SlideJukebox from "./components/slides/SlideJukebox";
 import SlideThemes from "./components/slides/SlideThemes";
+import SlideThemes2 from "./components/slides/SlideThemes2";
 import SlideReality from "./components/slides/SlideReality";
+import SlideRealityPart2 from "./components/slides/SlideRealityPart2";
 import SlideQA from "./components/slides/SlideQA";
 
 const slides = [
   SlideLanding,
   SlideIntro,
   SlideCanCan,
+  SlideCanCan2,
   SlideJukebox,
   SlideThemes,
+  SlideThemes2,
   SlideReality,
+  SlideRealityPart2,
   SlideQA,
 ];
 
 const slideNotes = [
   "[Cover] Welcome — Moulin Rouge! The Musical, A Century of Dreams.",
   "[01 · Story] 1899 Paris. Christian (poet) meets Satine (star). Their love is hunted by the Duke. Satine is dying. The premiere is a triumph; she dies in his arms.",
-  "[02 · Can-Can] Spectacle as theme — luxury, decadence, the wild Bohemian spirit. Cue the can-can clip.",
-  "[03 · Jukebox] Jukebox format = pop music as narrative. 2001 film: Your Song / Lady Marmalade / Come What May. 2019 Broadway adds Chandelier (Zidler) + Firework (Satine, post-#MeToo).",
-  "[04 · Themes] Four creeds — Truth, Beauty, Freedom, Love. Five thematic dimensions: Love as truth / Illusion vs reality / Class & gender / Art as resistance / Eternity through death.",
-  "[05 · Stage vs Industry] $28M, 78 hits, 10 Tonys. April 2021: Karen Olivo refused to return — 'Social justice is more important than being a shining diamond.' Stage Satine dies for love; real Olivo lives for justice.",
+  "[02a · Can-Can] Spectacle as theme — luxury, decadence, the wild Bohemian spirit. Cue the can-can clip.",
+  "[02b · Visual feast] The grand crimson-and-gold dance hall and Satine's diamond skirt — beauty as both lure and armour.",
+  "[03 · Jukebox] Jukebox format = pop music as narrative. 2001: Your Song / Lady Marmalade / Come What May. 2019 Broadway adds Chandelier (Zidler) + Firework (Satine, post-#MeToo).",
+  "[04a · Themes] Four creeds — Truth, Beauty, Freedom, Love. Five thematic dimensions.",
+  "[04b · Comparative] La Dame aux Camélias (1848) and La Traviata (1853) share the tragic core, differ in narrative style, female agency, separation logic, meaning of death.",
+  "[05a · The Show vs. The Industry] $28M, 78 hits, 10 Tonys. The Hollywood Reporter cover (April 7 2021) names Scott Rudin's documented abuse of cast and crew.",
+  "[05b · Karen Olivo] Tony nominee, original Satine. Refused to return: 'Social justice is more important than being a shining diamond.' Stage Satine dies for love; real Olivo lives for justice.",
   "[Q & A] Thank you. Questions welcomed.",
 ];
 

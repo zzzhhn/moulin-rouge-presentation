@@ -13,6 +13,14 @@
 
 const PRELOAD_VIDEO = ["/video/cancan-clip.mp4"];
 
+const PRELOAD_IMAGES = [
+  "/images/intro-satine-singing.jpg",
+  "/images/cancan-stage.jpg",
+  "/images/cancan-satine-crowd.jpg",
+  "/images/bully-cover.jpg",
+  "/images/olivo-latimes.jpg",
+];
+
 export default function AssetPreloader() {
   return (
     <div
@@ -28,6 +36,9 @@ export default function AssetPreloader() {
     >
       {PRELOAD_VIDEO.map((src) => (
         <video key={src} src={src} preload="auto" muted playsInline />
+      ))}
+      {PRELOAD_IMAGES.map((src) => (
+        <img key={src} src={src} alt="" loading="eager" decoding="async" />
       ))}
     </div>
   );
