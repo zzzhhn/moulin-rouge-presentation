@@ -24,8 +24,8 @@ import SlideQA from "./components/slides/SlideQA";
 const slides = [
   SlideLanding,
   SlideIntro,
-  SlideCanCan,
   SlideCanCan2,
+  SlideCanCan,
   SlideJukebox,
   SlideThemes,
   SlideThemes2,
@@ -37,8 +37,8 @@ const slides = [
 const slideNotes = [
   "[Cover] Welcome — Moulin Rouge! The Musical, A Century of Dreams.",
   "[01 · Story] 1899 Paris. Christian (poet) meets Satine (star). Their love is hunted by the Duke. Satine is dying. The premiere is a triumph; she dies in his arms.",
-  "[02a · Can-Can] Spectacle as theme — luxury, decadence, the wild Bohemian spirit. Cue the can-can clip.",
-  "[02b · Visual feast] The grand crimson-and-gold dance hall and Satine's diamond skirt — beauty as both lure and armour.",
+  "[02a · Visual feast] The grand crimson-and-gold dance hall and Satine's diamond skirt — beauty as both lure and armour.",
+  "[02b · Can-Can] Spectacle as theme — luxury, decadence, the wild Bohemian spirit. Cue the can-can clip.",
   "[03 · Jukebox] Jukebox format = pop music as narrative. 2001: Your Song / Lady Marmalade / Come What May. 2019 Broadway adds Chandelier (Zidler) + Firework (Satine, post-#MeToo).",
   "[04a · Themes] Four creeds — Truth, Beauty, Freedom, Love. Five thematic dimensions.",
   "[04b · Comparative] La Dame aux Camélias (1848) and La Traviata (1853) share the tragic core, differ in narrative style, female agency, separation logic, meaning of death.",

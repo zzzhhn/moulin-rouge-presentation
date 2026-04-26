@@ -104,8 +104,11 @@ export default function SlideReality({ isActive }: Props) {
               src="/images/bully-cover.jpg"
               alt="The Hollywood Reporter, April 7 2021 — BULLY: Scott Rudin"
               className="w-full h-full object-cover"
+              width={760}
+              height={1140}
               loading="eager"
               decoding="async"
+              {...{ fetchpriority: "high" }}
             />
             <div
               className="absolute left-3 bottom-3 right-3 pointer-events-none"

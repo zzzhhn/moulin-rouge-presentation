@@ -208,8 +208,11 @@ export default function SlideIntro({ isActive }: Props) {
               src="/images/intro-satine-singing.jpg"
               alt="Satine performs Spectacular Spectacular"
               className="w-full h-full object-cover"
+              width={2160}
+              height={870}
               loading="eager"
               decoding="async"
+              {...{ fetchpriority: "high" }}
             />
             <div
               className="absolute inset-0 pointer-events-none"

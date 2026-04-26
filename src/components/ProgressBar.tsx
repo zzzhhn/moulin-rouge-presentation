@@ -3,8 +3,8 @@ import { useState } from "react";
 const slideTitles = [
   "Moulin Rouge!",
   "01 · The Story",
-  "02a · The Can-Can",
-  "02b · Visual Feast",
+  "02a · Visual Feast",
+  "02b · The Can-Can",
   "03 · The Jukebox",
   "04a · Truth · Beauty · Freedom · Love",
   "04b · vs. La Dame aux Camélias",

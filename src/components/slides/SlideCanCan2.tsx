@@ -46,7 +46,7 @@ export default function SlideCanCan2({ isActive }: Props) {
   return (
     <div
       ref={ref}
-      className="h-full w-full flex flex-col gap-4 px-10 lg:px-16 py-8"
+      className="h-full w-full flex flex-col gap-3 px-10 lg:px-16 py-5"
     >
       <div className="cc2-heading shrink-0">
         <SectionHeading
@@ -56,73 +56,78 @@ export default function SlideCanCan2({ isActive }: Props) {
         />
       </div>
 
-      {/* Two diagonal rows. Each row pairs an image (60-65%) with a phrase
-          (35-40%) on the opposite side. Row 1 = phrase L / image R.
-          Row 2 = image L / phrase R. */}
-      <div className="flex-1 min-h-0 flex flex-col gap-4">
+      {/* Two zigzag rows; image height capped by row height (object-cover
+          handles aspect mismatch) so total never overflows the viewport. */}
+      <div className="flex-1 min-h-0 flex flex-col gap-3">
         {/* ROW 1: phrase LEFT, image RIGHT */}
-        <div className="cc2-row flex-1 min-h-0 grid grid-cols-12 gap-6 items-center">
-          <div className="col-span-12 lg:col-span-5 flex flex-col gap-3">
+        <div className="cc2-row flex-1 min-h-0 grid grid-cols-12 gap-5 items-center">
+          <div className="col-span-12 lg:col-span-5 flex flex-col gap-2">
             <span className="font-cinzel text-rouge-100/75 text-[11px] tracking-[0.4em]">
               I · THE STAGE
             </span>
-            <h3 className="font-display italic text-rouge-50 text-3xl md:text-5xl leading-tight">
+            <h3 className="font-display italic text-rouge-50 text-2xl md:text-4xl leading-tight">
               The grand crimson-and-gold dance hall
             </h3>
-            <p className="font-baskerville text-rouge-50/80 text-base md:text-lg leading-relaxed">
+            <p className="font-baskerville text-rouge-50/80 text-sm md:text-base leading-snug">
               Velvet drapes, ten thousand bulbs, a windmill on the left and
               an elephant on the right. Excess made architectural — a temple
               built for desire.
             </p>
           </div>
-          <div className="col-span-12 lg:col-span-7">
+          <div className="col-span-12 lg:col-span-7 h-full min-h-0">
             <div
-              className="cc2-img-frame relative w-full aspect-[16/9] rounded-lg overflow-hidden"
+              className="cc2-img-frame relative w-full h-full rounded-lg overflow-hidden"
               style={{
                 border: "1px solid rgba(212,175,55,0.4)",
                 boxShadow:
-                  "0 25px 55px rgba(0,0,0,0.6), inset 0 0 0 5px rgba(10,2,2,0.9), inset 0 0 0 6px rgba(212,175,55,0.4)",
+                  "0 18px 40px rgba(0,0,0,0.55), inset 0 0 0 4px rgba(10,2,2,0.9), inset 0 0 0 5px rgba(212,175,55,0.4)",
               }}
             >
               <img
                 src="/images/cancan-stage.jpg"
                 alt="The Moulin Rouge stage with windmill and elephant"
                 className="w-full h-full object-cover"
+                width={2480}
+                height={1370}
                 loading="eager"
                 decoding="async"
+                {...{ fetchpriority: "high" }}
               />
             </div>
           </div>
         </div>
 
         {/* ROW 2: image LEFT, phrase RIGHT */}
-        <div className="cc2-row flex-1 min-h-0 grid grid-cols-12 gap-6 items-center">
-          <div className="col-span-12 lg:col-span-7">
+        <div className="cc2-row flex-1 min-h-0 grid grid-cols-12 gap-5 items-center">
+          <div className="col-span-12 lg:col-span-7 h-full min-h-0">
             <div
-              className="cc2-img-frame relative w-full aspect-[16/9] rounded-lg overflow-hidden"
+              className="cc2-img-frame relative w-full h-full rounded-lg overflow-hidden"
               style={{
                 border: "1px solid rgba(212,175,55,0.4)",
                 boxShadow:
-                  "0 25px 55px rgba(0,0,0,0.6), inset 0 0 0 5px rgba(10,2,2,0.9), inset 0 0 0 6px rgba(212,175,55,0.4)",
+                  "0 18px 40px rgba(0,0,0,0.55), inset 0 0 0 4px rgba(10,2,2,0.9), inset 0 0 0 5px rgba(212,175,55,0.4)",
               }}
             >
               <img
                 src="/images/cancan-satine-crowd.jpg"
                 alt="Satine in glittery diamonds skirt above a roaring crowd"
                 className="w-full h-full object-cover"
+                width={2160}
+                height={870}
                 loading="eager"
                 decoding="async"
+                {...{ fetchpriority: "high" }}
               />
             </div>
           </div>
-          <div className="col-span-12 lg:col-span-5 flex flex-col gap-3">
+          <div className="col-span-12 lg:col-span-5 flex flex-col gap-2">
             <span className="font-cinzel text-rouge-100/75 text-[11px] tracking-[0.4em]">
               II · THE STAR
             </span>
-            <h3 className="font-display italic text-rouge-50 text-3xl md:text-5xl leading-tight">
+            <h3 className="font-display italic text-rouge-50 text-2xl md:text-4xl leading-tight">
               The heroine's glittering diamond skirt
             </h3>
-            <p className="font-baskerville text-rouge-50/80 text-base md:text-lg leading-relaxed">
+            <p className="font-baskerville text-rouge-50/80 text-sm md:text-base leading-snug">
               Satine descends on a swing, mobbed by top-hatted men waving
               banknotes. The costume catches every spotlight — beauty as
               both lure and armour.
