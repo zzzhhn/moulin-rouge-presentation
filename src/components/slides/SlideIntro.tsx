@@ -211,18 +211,16 @@ export default function SlideIntro({ isActive }: Props) {
                   {b.label}
                 </span>
                 <span
-                  className="font-script leading-none"
+                  className="font-cinzel font-bold tracking-wider"
                   style={{
-                    fontSize: "clamp(3.5rem, 5.5vw, 5rem)",
-                    lineHeight: 1.05,
-                    paddingTop: "0.1em",
-                    paddingBottom: "0.05em",
+                    fontSize: "clamp(3rem, 4.8vw, 4.5rem)",
+                    lineHeight: 1,
                     background:
                       "linear-gradient(180deg, #f4e4c1 0%, #d4af37 50%, #8a6a18 100%)",
                     WebkitBackgroundClip: "text",
                     backgroundClip: "text",
                     color: "transparent",
-                    filter: "drop-shadow(0 0 16px rgba(212,175,55,0.3))",
+                    filter: "drop-shadow(0 0 14px rgba(212,175,55,0.28))",
                   }}
                 >
                   {b.roman}
