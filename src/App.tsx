@@ -167,11 +167,23 @@ export default function App() {
       currentSlideRef.current === slides.length - 1 &&
       curtainStateRef.current === "hidden"
     ) {
-      setCurtainState("final");
+      // Two-step closing animation: first MOUNT the curtain in the "open"
+      // (off-screen) state so it has a starting frame, then on the next
+      // paint flip to "final" so the CSS transition has a from-value to
+      // animate from. Without this double rAF the curtain just appears
+      // already closed — no animation visible.
+      setCurtainState("open");
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => setCurtainState("final"));
+      });
       return;
     }
     // Block navigation while curtain is covering the viewport
-    if (curtainStateRef.current === "closed" || curtainStateRef.current === "final") {
+    if (
+      curtainStateRef.current === "closed" ||
+      curtainStateRef.current === "final" ||
+      curtainStateRef.current === "open"
+    ) {
       return;
     }
     goToSlide(currentSlideRef.current + 1);

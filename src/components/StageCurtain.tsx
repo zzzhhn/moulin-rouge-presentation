@@ -134,8 +134,14 @@ export default function StageCurtain({ state }: StageCurtainProps) {
             }}
           >
             <div
-              className="font-script text-[10rem] leading-none"
+              className="font-script"
               style={{
+                fontSize: "clamp(7rem, 14vw, 12rem)",
+                lineHeight: 1.2,
+                paddingTop: "0.22em",
+                paddingBottom: "0.18em",
+                paddingLeft: "0.12em",
+                paddingRight: "0.08em",
                 background:
                   "linear-gradient(180deg, #f4e4c1 0%, #d4af37 45%, #8a6a18 100%)",
                 WebkitBackgroundClip: "text",
@@ -146,7 +152,7 @@ export default function StageCurtain({ state }: StageCurtainProps) {
             >
               Fin
             </div>
-            <div className="font-cinzel text-rouge-100/70 text-xs tracking-[0.5em]">
+            <div className="font-cinzel text-rouge-100/75 text-sm tracking-[0.5em]">
               MERCI POUR VOTRE ATTENTION
             </div>
           </div>

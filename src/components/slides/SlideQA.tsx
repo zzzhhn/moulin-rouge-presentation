@@ -65,7 +65,7 @@ export default function SlideQA({ isActive }: Props) {
         <span
           className="qa-title-letter font-script inline-block"
           style={{
-            fontSize: "clamp(9rem, 20vw, 18rem)",
+            fontSize: "clamp(6rem, 13vw, 12rem)",
             lineHeight: 1.18,
             paddingTop: "0.22em",
             paddingBottom: "0.1em",
@@ -85,7 +85,7 @@ export default function SlideQA({ isActive }: Props) {
         <span
           className="qa-ampersand font-script inline-block italic"
           style={{
-            fontSize: "clamp(5rem, 10vw, 9rem)",
+            fontSize: "clamp(3.5rem, 7vw, 6.5rem)",
             lineHeight: 1.18,
             paddingTop: "0.18em",
             background:
@@ -102,7 +102,7 @@ export default function SlideQA({ isActive }: Props) {
         <span
           className="qa-title-letter font-script inline-block"
           style={{
-            fontSize: "clamp(9rem, 20vw, 18rem)",
+            fontSize: "clamp(6rem, 13vw, 12rem)",
             lineHeight: 1.18,
             paddingTop: "0.22em",
             paddingBottom: "0.1em",
@@ -138,7 +138,7 @@ export default function SlideQA({ isActive }: Props) {
         <span className="text-rouge-100">Freedom</span>,{" "}
         and{" "}
         <span className="text-rouge-100">Love</span>{" "}
-        — which speaks loudest to you tonight?
+        — which speaks loudest to you?
       </p>
 
       <div className="qa-thanks absolute bottom-10 flex flex-col items-center gap-1">
