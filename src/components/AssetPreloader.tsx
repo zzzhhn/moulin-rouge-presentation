@@ -1,27 +1,15 @@
 // Hidden media preloader — kicks the browser into eagerly downloading the
-// can-can video and the 5 jukebox audio clips at app boot, so by the time
-// the presenter advances to slides 02 / 03 the bytes are already cached
-// and playback is instant.
+// can-can video at app boot, so by the time the presenter advances to
+// Section 02 the bytes are cached and playback is instant.
 //
-// Why hidden <audio>/<video> elements with preload="auto" instead of
-// <link rel="preload" as="audio">:
-//   - <link rel="preload"> for media has known cache-key mismatches with
-//     <audio>/<video>'s Range-request behavior in Chrome — sometimes the
-//     browser ends up downloading the same file twice.
-//   - <audio preload="auto"> only triggers DOWNLOAD + decode-prep. It does
-//     not call .play() unless we explicitly ask. So preload != autoplay,
-//     which is exactly the guarantee we want.
+// Note: jukebox audio (5 clips) is NOT preloaded here. SlideJukebox renders
+// 5 persistent <audio> elements (one per track) directly, each with its own
+// preload="auto" — that keeps each track's own ready state warm at
+// HAVE_ENOUGH_DATA so switching tracks is instant. Preloading the audio
+// here too would force a duplicate load via a different element instance.
 //
-// Memory cost: 5 × ~200 KB AAC clips + 1 × 16 MB H.264 clip = ~17 MB held
-// in browser media buffers. Safe.
-
-const PRELOAD_AUDIO = [
-  "/audio/your-song-clip.mp4",
-  "/audio/lady-marmalade-clip.mp4",
-  "/audio/come-what-may-clip.mp4",
-  "/audio/chandelier-clip.mp4",
-  "/audio/firework-clip.mp4",
-];
+// preload="auto" only triggers DOWNLOAD + decode-prep, never .play() —
+// preload != autoplay.
 
 const PRELOAD_VIDEO = ["/video/cancan-clip.mp4"];
 
@@ -38,9 +26,6 @@ export default function AssetPreloader() {
         pointerEvents: "none",
       }}
     >
-      {PRELOAD_AUDIO.map((src) => (
-        <audio key={src} src={src} preload="auto" muted />
-      ))}
       {PRELOAD_VIDEO.map((src) => (
         <video key={src} src={src} preload="auto" muted playsInline />
       ))}

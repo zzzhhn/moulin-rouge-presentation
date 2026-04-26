@@ -105,13 +105,24 @@ const TRACKS: Track[] = [
 
 export default function SlideJukebox({ isActive }: Props) {
   const ref = useRef<HTMLDivElement>(null);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  // One persistent <audio> element per track so each can sit at HAVE_ENOUGH_DATA
+  // independently. Switching tracks just flips which element we play() — no
+  // src re-assignment, no decode reset, no rebuffer wait.
+  const audioRefs = useRef<Record<string, HTMLAudioElement | null>>({});
   const hasAnimated = useRef(false);
   const [selectedId, setSelectedId] = useState<string>(TRACKS[0].id);
   const [playing, setPlaying] = useState(false);
   const [captionIdx, setCaptionIdx] = useState(0);
 
   const selected = TRACKS.find((t) => t.id === selectedId) || TRACKS[0];
+
+  const pauseAll = () => {
+    Object.values(audioRefs.current).forEach((a) => {
+      if (a && !a.paused) {
+        a.pause();
+      }
+    });
+  };
 
   useEffect(() => {
     if (!isActive || !ref.current || hasAnimated.current) return;
@@ -156,8 +167,8 @@ export default function SlideJukebox({ isActive }: Props) {
   }, [isActive]);
 
   useEffect(() => {
-    if (!isActive && audioRef.current) {
-      audioRef.current.pause();
+    if (!isActive) {
+      pauseAll();
       setPlaying(false);
     }
   }, [isActive]);
@@ -175,14 +186,22 @@ export default function SlideJukebox({ isActive }: Props) {
       togglePlay();
       return;
     }
-    if (audioRef.current) audioRef.current.pause();
+    pauseAll();
     setSelectedId(id);
     setCaptionIdx(0);
-    setPlaying(false);
+    // Auto-play the newly selected track from the start. Each track has
+    // its own warm <audio> element, so play() resolves instantly.
+    const next = audioRefs.current[id];
+    if (next) {
+      next.currentTime = 0;
+      next.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
+    } else {
+      setPlaying(false);
+    }
   };
 
   const togglePlay = () => {
-    const a = audioRef.current;
+    const a = audioRefs.current[selectedId];
     if (!a) return;
     if (playing) {
       a.pause();
@@ -197,12 +216,21 @@ export default function SlideJukebox({ isActive }: Props) {
       ref={ref}
       className="h-full w-full flex flex-col px-10 lg:px-16 py-8 gap-4"
     >
-      <audio
-        ref={audioRef}
-        src={selected.src}
-        onEnded={() => setPlaying(false)}
-        preload="auto"
-      />
+      {/* One persistent audio element per track. Each stays warm at
+          HAVE_ENOUGH_DATA so any track can start playing instantly. */}
+      {TRACKS.map((t) => (
+        <audio
+          key={t.id}
+          ref={(el) => {
+            audioRefs.current[t.id] = el;
+          }}
+          src={t.src}
+          preload="auto"
+          onEnded={() => {
+            if (selectedId === t.id) setPlaying(false);
+          }}
+        />
+      ))}
 
       {/* Top heading row */}
       <div className="jb-heading shrink-0">
