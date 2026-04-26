@@ -44,20 +44,13 @@ export default function SlideThemes2({ isActive }: Props) {
         stagger: 0.08,
         ease: "power3.out",
       });
-      gsap.from(".th2-intro", {
-        opacity: 0,
-        y: 20,
-        duration: 0.8,
-        ease: "power2.out",
-        delay: 0.4,
-      });
       gsap.from(".th2-col-head", {
         y: 20,
         opacity: 0,
         duration: 0.55,
         stagger: 0.12,
         ease: "power2.out",
-        delay: 0.6,
+        delay: 0.4,
       });
       gsap.from(".th2-row", {
         y: 20,
@@ -65,7 +58,7 @@ export default function SlideThemes2({ isActive }: Props) {
         duration: 0.55,
         stagger: 0.1,
         ease: "power2.out",
-        delay: 0.8,
+        delay: 0.6,
       });
     }, ref);
     return () => ctx.revert();
@@ -84,30 +77,18 @@ export default function SlideThemes2({ isActive }: Props) {
         />
       </div>
 
-      <p className="th2-intro font-baskerville italic text-rouge-100/85 text-lg md:text-xl max-w-5xl leading-snug">
-        Moulin Rouge! pays deep homage to Dumas fils' La Dame aux Camélias
-        (1848) and Verdi's La Traviata (1853) — same tragic core, radically
-        different eras and aesthetics.
-      </p>
-
       {/* Comparison table */}
       <div className="flex-1 min-h-0 grid grid-cols-12 gap-x-5 gap-y-0">
         {/* Header row */}
         <div className="col-span-3 th2-col-head" />
         <div className="col-span-4 lg:col-span-4 th2-col-head text-center">
-          <div className="font-cinzel text-rouge-100 text-sm md:text-base tracking-[0.35em]">
+          <div className="font-cinzel text-rouge-100 text-base md:text-lg tracking-[0.35em]">
             MOULIN ROUGE!
-          </div>
-          <div className="font-baskerville italic text-rouge-50/55 text-xs mt-1">
-            2001 · postmodern musical
           </div>
         </div>
         <div className="col-span-5 lg:col-span-5 th2-col-head text-center">
-          <div className="font-cinzel text-rouge-50 text-sm md:text-base tracking-[0.35em]">
+          <div className="font-cinzel text-rouge-50 text-base md:text-lg tracking-[0.35em]">
             LA DAME AUX CAMÉLIAS
-          </div>
-          <div className="font-baskerville italic text-rouge-50/55 text-xs mt-1">
-            1848 · realist novel · 1853 opera
           </div>
         </div>
 
