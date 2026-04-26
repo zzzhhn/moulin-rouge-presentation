@@ -13,38 +13,120 @@ const creeds = [
   { word: "Love" },
 ];
 
-const themes = [
+type ThemeIcon = "heart" | "mask" | "crown" | "muse" | "hourglass";
+
+const themes: {
+  roman: string;
+  title: string;
+  body: string;
+  moment: string;
+  icon: ThemeIcon;
+}[] = [
   {
     roman: "I",
     title: "Love as the Only Truth",
     body:
       "True love transcends money, power, and class — and because it is genuine, the tragedy cuts deeper.",
+    moment: "Come What May — the lovers' secret duet, sealed against the world.",
+    icon: "heart",
   },
   {
     roman: "II",
     title: "Illusion vs. Reality",
     body:
       "Satine blazes onstage, dies offstage. In a world built on lies, what is real?",
+    moment: "Spectacular Spectacular — the play-within-the-play mirrors their lives.",
+    icon: "mask",
   },
   {
     roman: "III",
     title: "Class, Power, Gender",
     body:
       "The Duke buys Satine's body. A 19th-century power imbalance that hasn't gone away.",
+    moment: "The diamond necklace — given as a leash, worn as a brand.",
+    icon: "crown",
   },
   {
     roman: "IV",
     title: "Art as Resistance",
     body:
       "Music, dance, theatre — the Bohemians' weapons. Art itself becomes a declaration of freedom.",
+    moment: "Bohemian Rhapsody — sung against a backdrop of contracts and cages.",
+    icon: "muse",
   },
   {
     roman: "V",
     title: "Eternity Through Death",
     body:
       "Satine's death frees love from time. The tragedy is not defeat — it is love preserved through story.",
+    moment: "The final curtain falls — the song outlives the singer.",
+    icon: "hourglass",
   },
 ];
+
+function ThemeIconSvg({ icon }: { icon: ThemeIcon }) {
+  const common = {
+    width: 44,
+    height: 44,
+    fill: "none",
+    stroke: "#d4af37",
+    strokeWidth: 1.4,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+    opacity: 0.85,
+    style: { filter: "drop-shadow(0 0 12px rgba(212,175,55,0.25))" },
+  };
+  switch (icon) {
+    case "heart":
+      return (
+        <svg viewBox="0 0 44 44" {...common}>
+          <path d="M22 36 C 6 25, 6 11, 14 9 C 18.5 8, 22 11, 22 14 C 22 11, 25.5 8, 30 9 C 38 11, 38 25, 22 36 Z" />
+          <path d="M16 17 Q 19 15 22 17" strokeWidth="0.8" opacity="0.7" />
+        </svg>
+      );
+    case "mask":
+      return (
+        <svg viewBox="0 0 44 44" {...common}>
+          <path d="M8 14 Q 22 8 36 14 L 36 22 Q 36 32 22 36 Q 8 32 8 22 Z" />
+          <ellipse cx="15" cy="20" rx="3" ry="2.5" fill="#d4af37" opacity="0.6" />
+          <ellipse cx="29" cy="20" rx="3" ry="2.5" fill="#d4af37" opacity="0.6" />
+          <path d="M 16 28 Q 22 31 28 28" strokeWidth="1" />
+          <path d="M 22 8 L 22 14" strokeWidth="0.8" />
+        </svg>
+      );
+    case "crown":
+      return (
+        <svg viewBox="0 0 44 44" {...common}>
+          <path d="M 8 30 L 8 18 L 14 22 L 22 12 L 30 22 L 36 18 L 36 30 Z" />
+          <line x1="8" y1="34" x2="36" y2="34" />
+          <circle cx="22" cy="12" r="1.6" fill="#d4af37" />
+          <circle cx="14" cy="22" r="1.2" fill="#d4af37" />
+          <circle cx="30" cy="22" r="1.2" fill="#d4af37" />
+        </svg>
+      );
+    case "muse":
+      return (
+        <svg viewBox="0 0 44 44" {...common}>
+          <circle cx="13" cy="30" r="4" />
+          <circle cx="29" cy="26" r="4" />
+          <line x1="17" y1="30" x2="33" y2="26" />
+          <line x1="17" y1="30" x2="17" y2="14" />
+          <line x1="33" y1="26" x2="33" y2="10" />
+          <path d="M 17 14 Q 25 10 33 10" strokeWidth="1" />
+        </svg>
+      );
+    case "hourglass":
+      return (
+        <svg viewBox="0 0 44 44" {...common}>
+          <path d="M 12 8 L 32 8 L 32 12 L 22 22 L 32 32 L 32 36 L 12 36 L 12 32 L 22 22 L 12 12 Z" />
+          <line x1="10" y1="8" x2="34" y2="8" strokeWidth="1.6" />
+          <line x1="10" y1="36" x2="34" y2="36" strokeWidth="1.6" />
+          <circle cx="22" cy="28" r="0.8" fill="#d4af37" />
+          <circle cx="22" cy="31" r="0.6" fill="#d4af37" />
+        </svg>
+      );
+  }
+}
 
 export default function SlideThemes({ isActive }: Props) {
   const ref = useRef<HTMLDivElement>(null);
@@ -170,6 +252,25 @@ export default function SlideThemes({ isActive }: Props) {
             <p className="font-baskerville text-rouge-50/85 text-[15px] md:text-base leading-relaxed">
               {t.body}
             </p>
+
+            {/* Spacer pushes the moment + icon to the bottom */}
+            <div className="flex-1" />
+
+            {/* Key moment from the film — italicized, golden, divider above */}
+            <div className="pt-3 border-t border-rouge-100/15 flex flex-col gap-3">
+              <div className="flex items-center gap-2">
+                <span className="font-cinzel text-rouge-100/70 text-[10px] tracking-[0.35em]">
+                  IN THE FILM
+                </span>
+                <span className="h-px flex-1 bg-rouge-100/15" />
+              </div>
+              <p className="font-baskerville italic text-rouge-100/85 text-[14px] md:text-[15px] leading-snug">
+                {t.moment}
+              </p>
+              <div className="self-end mt-1">
+                <ThemeIconSvg icon={t.icon} />
+              </div>
+            </div>
           </article>
         ))}
       </div>

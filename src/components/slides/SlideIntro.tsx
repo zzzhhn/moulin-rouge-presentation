@@ -96,15 +96,15 @@ export default function SlideIntro({ isActive }: Props) {
             }}
           >
             <header className="flex items-baseline gap-3">
-              <span className="font-cinzel text-rouge-100 text-[11px] tracking-[0.4em]">
+              <span className="font-cinzel text-rouge-100 text-[12px] tracking-[0.4em]">
                 {b.label}
               </span>
               <span className="h-px flex-1 bg-rouge-100/25" />
             </header>
-            <h3 className="font-display italic text-rouge-50 text-xl md:text-2xl leading-tight">
+            <h3 className="font-display italic text-rouge-50 text-2xl md:text-3xl leading-tight">
               {b.title}
             </h3>
-            <p className="font-baskerville text-rouge-50/80 text-[14px] leading-relaxed">
+            <p className="font-baskerville text-rouge-50/85 text-[15.5px] md:text-base leading-relaxed">
               {b.body}
             </p>
           </article>

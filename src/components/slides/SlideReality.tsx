@@ -12,13 +12,28 @@ const stats = [
   { figure: "10", label: "Tony Awards" },
 ];
 
-const mirror = [
+type MirrorRow = { kicker: string; value: string };
+
+const mirror: {
+  side: string;
+  role: string;
+  line: string;
+  closing: string;
+  tone: "gold" | "red";
+  rows: MirrorRow[];
+}[] = [
   {
     side: "ON STAGE",
     role: "Satine",
     line: "A nightclub star, hailed as the Sparkling Diamond. To save her lover and the show, she sacrifices herself — and dies in his arms.",
     closing: "She dies for love.",
     tone: "gold",
+    rows: [
+      { kicker: "Identity", value: "The Sparkling Diamond" },
+      { kicker: "Stakes", value: "Her lover, her stage, her health" },
+      { kicker: "Final scene", value: "Collapses on stage as the curtain falls" },
+      { kicker: "Logic", value: "Sacrifice as proof of love" },
+    ],
   },
   {
     side: "BEHIND THE SCENES",
@@ -27,6 +42,12 @@ const mirror = [
       "Refused to return to the role. Refused to be a diamond merely admired and consumed. Refused to trade her principles for the silence of an industry.",
     closing: "She leaves — to live for justice.",
     tone: "red",
+    rows: [
+      { kicker: "Identity", value: "Tony nominee, original Broadway Satine" },
+      { kicker: "Stakes", value: "Career, income, an industry's silence" },
+      { kicker: "Final act", value: "Walks away on Instagram, April 2021" },
+      { kicker: "Logic", value: "Refusal as a form of voice" },
+    ],
   },
 ];
 
@@ -67,12 +88,6 @@ export default function SlideReality({ isActive }: Props) {
         stagger: 0.15,
         ease: "power3.out",
         delay: 1.1,
-      });
-      gsap.from(".rl-question", {
-        opacity: 0,
-        y: 20,
-        duration: 0.9,
-        delay: 1.7,
       });
     }, ref);
     return () => ctx.revert();
@@ -161,7 +176,7 @@ export default function SlideReality({ isActive }: Props) {
           >
             <div className="flex items-center gap-3">
               <span
-                className="font-cinzel text-[10px] tracking-[0.4em]"
+                className="font-cinzel text-[11px] tracking-[0.4em]"
                 style={{ color: m.tone === "red" ? "#f4e4c1" : "#d4af37" }}
               >
                 {m.side}
@@ -176,18 +191,33 @@ export default function SlideReality({ isActive }: Props) {
                 }}
               />
             </div>
-            <h3
-              className="font-display italic text-2xl md:text-3xl leading-tight"
-              style={{ color: m.tone === "red" ? "#f4e4c1" : "#f4e4c1" }}
-            >
+            <h3 className="font-display italic text-3xl md:text-4xl leading-tight text-rouge-50">
               {m.role}
             </h3>
-            <p className="font-baskerville text-rouge-50/85 text-[14px] leading-relaxed">
+            <p className="font-baskerville text-rouge-50/85 text-[15.5px] md:text-base leading-relaxed">
               {m.line}
             </p>
+
+            {/* Detail rows fill the card body */}
+            <ul className="flex flex-col divide-y divide-rouge-100/12 mt-2">
+              {m.rows.map((r) => (
+                <li
+                  key={r.kicker}
+                  className="flex items-baseline gap-4 py-2.5"
+                >
+                  <span className="font-cinzel text-rouge-100/75 text-[10px] tracking-[0.3em] uppercase w-24 shrink-0">
+                    {r.kicker}
+                  </span>
+                  <span className="font-baskerville text-rouge-50/90 text-[15px] leading-snug">
+                    {r.value}
+                  </span>
+                </li>
+              ))}
+            </ul>
+
             <p
-              className="font-display italic text-base mt-auto"
-              style={{ color: m.tone === "red" ? "#9e1b32" : "#d4af37" }}
+              className="font-display italic text-lg md:text-xl mt-auto pt-4 border-t border-rouge-100/15"
+              style={{ color: m.tone === "red" ? "#f4e4c1" : "#d4af37" }}
             >
               {m.closing}
             </p>
@@ -195,11 +225,6 @@ export default function SlideReality({ isActive }: Props) {
         ))}
       </div>
 
-      <p className="rl-question font-display italic text-rouge-50/90 text-base md:text-lg text-center max-w-4xl mx-auto leading-snug">
-        If an industry's dream can only be built on the consumption of its
-        practitioners' health and dignity —{" "}
-        <span className="text-rouge-100">how long can that dream last?</span>
-      </p>
     </div>
   );
 }
