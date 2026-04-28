@@ -66,11 +66,12 @@ export default function SlideQA({ isActive }: Props) {
           className="qa-title-letter font-script inline-block"
           style={{
             fontSize: "clamp(6rem, 13vw, 12rem)",
-            lineHeight: 1.18,
-            paddingTop: "0.22em",
-            paddingBottom: "0.1em",
-            paddingLeft: "0.1em",
-            paddingRight: "0.05em",
+            lineHeight: 1.4,
+            paddingTop: "0.4em",
+            paddingBottom: "0.2em",
+            paddingLeft: "0.15em",
+            paddingRight: "0.1em",
+            overflow: "visible",
             background:
               "linear-gradient(180deg, #f4e4c1 0%, #d4af37 50%, #8a6a18 100%)",
             WebkitBackgroundClip: "text",
@@ -86,8 +87,10 @@ export default function SlideQA({ isActive }: Props) {
           className="qa-ampersand font-script inline-block italic"
           style={{
             fontSize: "clamp(3.5rem, 7vw, 6.5rem)",
-            lineHeight: 1.18,
-            paddingTop: "0.18em",
+            lineHeight: 1.4,
+            paddingTop: "0.3em",
+            paddingBottom: "0.15em",
+            overflow: "visible",
             background:
               "linear-gradient(180deg, #f4e4c1 0%, #d4af37 50%, #8a6a18 100%)",
             WebkitBackgroundClip: "text",
@@ -103,11 +106,12 @@ export default function SlideQA({ isActive }: Props) {
           className="qa-title-letter font-script inline-block"
           style={{
             fontSize: "clamp(6rem, 13vw, 12rem)",
-            lineHeight: 1.18,
-            paddingTop: "0.22em",
-            paddingBottom: "0.1em",
-            paddingLeft: "0.1em",
-            paddingRight: "0.05em",
+            lineHeight: 1.4,
+            paddingTop: "0.4em",
+            paddingBottom: "0.2em",
+            paddingLeft: "0.15em",
+            paddingRight: "0.1em",
+            overflow: "visible",
             background:
               "linear-gradient(180deg, #f4e4c1 0%, #d4af37 50%, #8a6a18 100%)",
             WebkitBackgroundClip: "text",

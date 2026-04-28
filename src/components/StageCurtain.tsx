@@ -2,6 +2,7 @@ export type CurtainState = "hidden" | "closed" | "open" | "final";
 
 interface StageCurtainProps {
   state: CurtainState;
+  onGoBack?: () => void;
 }
 
 // Two-panel theatre curtain.
@@ -12,7 +13,7 @@ interface StageCurtainProps {
 //           so the user sees it dramatically appear the moment the trigger fires
 //   open:   translateX ∓100% WITH a 2.2s transition — the show reveal
 //   final:  translateX 0 WITH a 2.2s transition — the end-of-Q&A curtain call
-export default function StageCurtain({ state }: StageCurtainProps) {
+export default function StageCurtain({ state, onGoBack }: StageCurtainProps) {
   if (state === "hidden") return null;
 
   // Transitions are ONLY applied for open/final. `closed` state renders with
@@ -157,6 +158,46 @@ export default function StageCurtain({ state }: StageCurtainProps) {
             </div>
           </div>
         </div>
+      )}
+
+      {/* "Back to Q&A" rescue arrow — appears bottom-left when curtain is final.
+          Lets the presenter recover if they advanced past Q&A by accident. */}
+      {state === "final" && onGoBack && (
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            onGoBack();
+          }}
+          aria-label="Back to Q&A"
+          className="absolute bottom-8 left-8 flex items-center gap-2 px-4 py-2 rounded-full opacity-0"
+          style={{
+            pointerEvents: "auto",
+            background: "rgba(10,2,2,0.55)",
+            border: "1px solid rgba(212,175,55,0.45)",
+            color: "#f4e4c1",
+            backdropFilter: "blur(6px)",
+            WebkitBackdropFilter: "blur(6px)",
+            animation: "fin-appear 1s ease-out 2.5s forwards",
+          }}
+        >
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.75"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M19 12H5" />
+            <path d="M12 19l-7-7 7-7" />
+          </svg>
+          <span className="font-cinzel text-[10px] tracking-[0.3em] uppercase">
+            Back
+          </span>
+        </button>
       )}
     </div>
   );

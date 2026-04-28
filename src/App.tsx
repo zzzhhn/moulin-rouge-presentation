@@ -203,6 +203,13 @@ export default function App() {
     goToSlide(currentSlideRef.current - 1);
   }, [goToSlide]);
 
+  // Rescue handler for the Fin state: lifts the final curtain back up so the
+  // Q&A slide is visible again. currentSlide is already on Q&A (the curtain
+  // is just an overlay), so we only need to reset the curtain state.
+  const handleFinalGoBack = useCallback(() => {
+    setCurtainState("hidden");
+  }, []);
+
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === " " || e.key === "ArrowRight" || e.key === "ArrowDown") {
@@ -314,7 +321,7 @@ export default function App() {
         </>
       )}
 
-      <StageCurtain state={curtainState} />
+      <StageCurtain state={curtainState} onGoBack={handleFinalGoBack} />
     </div>
   );
 }

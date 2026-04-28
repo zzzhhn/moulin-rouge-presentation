@@ -168,17 +168,17 @@ export default function SlideRealityPart2({ isActive }: Props) {
                   }}
                 />
               </div>
-              <h3 className="font-display italic text-2xl md:text-3xl leading-tight text-rouge-50">
+              <h3 className="font-display italic text-3xl md:text-4xl leading-tight text-rouge-50">
                 {m.role}
               </h3>
 
               {m.pullQuote && (
-                <blockquote className="font-display italic text-rouge-100 text-base md:text-lg leading-snug border-l-2 border-rouge-100 pl-3">
+                <blockquote className="font-display italic text-rouge-100 text-lg md:text-xl leading-snug border-l-2 border-rouge-100 pl-3">
                   "{m.pullQuote}"
                 </blockquote>
               )}
 
-              <p className="font-baskerville text-rouge-50/85 text-[14px] md:text-[15px] leading-snug">
+              <p className="font-baskerville text-rouge-50/85 text-[16px] md:text-[17px] leading-snug">
                 {m.body}
               </p>
 
@@ -188,10 +188,10 @@ export default function SlideRealityPart2({ isActive }: Props) {
                     key={r.kicker}
                     className="flex items-baseline gap-3 py-1.5"
                   >
-                    <span className="font-cinzel text-rouge-100/75 text-[10px] tracking-[0.28em] uppercase w-24 shrink-0">
+                    <span className="font-cinzel text-rouge-100/75 text-[12px] tracking-[0.28em] uppercase w-24 shrink-0">
                       {r.kicker}
                     </span>
-                    <span className="font-baskerville text-rouge-50/90 text-[13.5px] md:text-sm leading-snug">
+                    <span className="font-baskerville text-rouge-50/90 text-[15.5px] md:text-base leading-snug">
                       {r.value}
                     </span>
                   </li>
@@ -199,7 +199,7 @@ export default function SlideRealityPart2({ isActive }: Props) {
               </ul>
 
               <p
-                className="font-display italic text-base md:text-lg mt-auto pt-2 border-t border-rouge-100/15"
+                className="font-display italic text-lg md:text-xl mt-auto pt-2 border-t border-rouge-100/15"
                 style={{ color: m.tone === "red" ? "#f4e4c1" : "#d4af37" }}
               >
                 {m.closing}
