@@ -35,7 +35,7 @@ export default function AssetPreloader() {
       }}
     >
       {PRELOAD_VIDEO.map((src) => (
-        <video key={src} src={src} preload="auto" muted playsInline />
+        <video key={src} src={src} preload="auto" playsInline />
       ))}
       {PRELOAD_IMAGES.map((src) => (
         <img key={src} src={src} alt="" loading="eager" decoding="async" />
