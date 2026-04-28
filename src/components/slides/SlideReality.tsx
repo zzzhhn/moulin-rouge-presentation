@@ -138,17 +138,17 @@ export default function SlideReality({ isActive }: Props) {
             </h3>
           </div>
           <p className="font-baskerville text-rouge-50/85 text-base md:text-lg leading-relaxed">
-            Behind the spectacle of Moulin Rouge! sits its lead producer{" "}
-            <span className="text-rouge-100">Scott Rudin</span> — a man whose
-            "volcanic behaviour" toward employees had been an open Broadway
-            secret for decades. The Hollywood Reporter ran the cover above on
-            April 7, 2021, and the silence finally broke.
+            In 2021, the workplace abuse scandal of Broadway super-producer{" "}
+            <span className="text-rouge-100">Scott Rudin</span> was exposed —
+            a man whose "volcanic behaviour" toward employees had been an
+            open Broadway secret for decades. The Hollywood Reporter ran the
+            cover above on April 7, 2021, and the silence finally broke.
           </p>
           <p className="font-baskerville text-rouge-50/80 text-[15px] md:text-base leading-relaxed">
-            The musical that won 10 Tonys was bankrolled by a man former
-            employees describe as "an absolute monster." For the cast and
-            crew, every dazzling number on stage came with a question: at
-            what cost?
+            This producer was described by former employees as "an absolute
+            monster." And the entire Broadway industry's long silence over
+            this case sparked a reflection: what is the cost of such
+            industry silence?
           </p>
           <div className="flex items-center gap-3 mt-1">
             <span className="h-px flex-1 bg-rouge-100/30" />

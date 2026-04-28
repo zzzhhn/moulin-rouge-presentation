@@ -36,7 +36,7 @@ const mirror: {
     pullQuote:
       "Social justice is more important than being a shining diamond.",
     body:
-      "April 2021 — Tony nominee, original Broadway Satine. Walks away from the show in protest of producer Scott Rudin's documented abuse and the industry's silence.",
+      "2021 — Tony nominee, original Broadway Satine. Walks away from the show in protest of Scott Rudin's documented abuse and the entire industry's collective silence over the case.",
     closing: "She leaves — to live for justice.",
     tone: "red",
     rows: [
