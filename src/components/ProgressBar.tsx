@@ -4,7 +4,7 @@ const slideTitles = [
   "Moulin Rouge!",
   "01 · The Story",
   "02a · Visual Feast",
-  "02b · The Can-Can",
+  "02b · The can-can",
   "03 · The Jukebox",
   "04a · Truth · Beauty · Freedom · Love",
   "04b · vs. La Dame aux Camélias",

@@ -90,7 +90,7 @@ export default function SlideCanCan({ isActive }: Props) {
           <SectionHeading
             number="02"
             kicker="The dance of dissipation"
-            title="The Can-Can"
+            title="The can-can"
           />
         </div>
         <div className="col-span-12 lg:col-span-7 flex flex-col gap-2">
