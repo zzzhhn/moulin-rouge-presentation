@@ -356,7 +356,7 @@ export default function SlideJukebox({ isActive }: Props) {
         </div>
 
         {/* CENTER: Unified phonograph cabinet */}
-        <div className="col-span-5 jb-phonograph flex flex-col items-center justify-center gap-4">
+        <div className="col-span-4 jb-phonograph flex flex-col items-center justify-center gap-4">
           <Phonograph
             labelColor={selected.labelColor}
             accent={selected.accent}
@@ -379,7 +379,7 @@ export default function SlideJukebox({ isActive }: Props) {
         </div>
 
         {/* RIGHT: Now playing + captions */}
-        <div className="jb-info col-span-4 flex flex-col gap-4">
+        <div className="jb-info col-span-5 flex flex-col gap-4">
           <div>
             <div className="font-cinzel text-rouge-100 text-[10px] tracking-[0.5em] mb-2">
               NOW PLAYING
@@ -411,14 +411,14 @@ export default function SlideJukebox({ isActive }: Props) {
           </div>
 
           <div
-            className="rounded-lg p-5 lg:p-6 flex-1 flex flex-col"
+            className="rounded-lg p-6 lg:p-7 flex-1 flex flex-col"
             style={{
               background: "rgba(10,2,2,0.6)",
               border: "1px solid rgba(212,175,55,0.3)",
-              minHeight: "230px",
+              minHeight: "280px",
             }}
           >
-            <div className="font-cinzel text-rouge-100/75 text-[10px] tracking-[0.45em] mb-4 shrink-0">
+            <div className="font-cinzel text-rouge-100/75 text-[11px] tracking-[0.45em] mb-4 shrink-0">
               LYRICS
             </div>
             <ul className="flex-1 flex flex-col justify-center gap-3 font-baskerville">
@@ -431,7 +431,7 @@ export default function SlideJukebox({ isActive }: Props) {
                     className="leading-snug"
                     style={{
                       color: isActive ? "#f4e4c1" : "#f4e4c180",
-                      fontSize: isActive ? "1.35rem" : "1rem",
+                      fontSize: isActive ? "1.55rem" : "1.1rem",
                       fontStyle: isActive ? "italic" : "normal",
                       opacity: isActive ? 1 : isPast ? 0.35 : 0.55,
                       transform: isActive
